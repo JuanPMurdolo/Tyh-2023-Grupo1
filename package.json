@@ -2,7 +2,7 @@
   "name": "tyh-2023-grupo1",
   "version": "1.0.0",
   "description": "Trabajo final de Tecnicas y Herramientas",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
   },
