@@ -1,0 +1,16 @@
+{
+  "name": "tyh-2023-grupo1",
+  "version": "1.0.0",
+  "description": "Trabajo final de Tecnicas y Herramientas",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Gregorio Abraham Jurado y Juan Murdolo",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.5.0",
+    "jshashes": "^1.0.8",
+    "uuid": "^9.0.0"
+  }
+}
