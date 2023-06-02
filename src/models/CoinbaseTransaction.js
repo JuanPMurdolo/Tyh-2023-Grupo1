@@ -1,6 +1,7 @@
-class Transaction {
-    constructor(id, sender, recipient, lastTransactionId) {
+class CoinbaseTransaction {
+    constructor(id, token, sender, recipient, lastTransactionId) {
       this.id = id;
+      this.token = token;
       this.sender = sender;
       this.recipient = recipient;
       this.lastTransactionId = lastTransactionId;
@@ -10,4 +11,4 @@ class Transaction {
     
 }
 
-module.exports = Transaction;
+module.exports = CoinbaseTransaction;
