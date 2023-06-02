@@ -7,9 +7,8 @@ class Transaction {
       this.lastTransactionId = lastTransactionId;
       this.timestamp = 0;
       this.hash = '';
-    }
+}
     
-  
-  }
-  
-  module.exports = Transaction;
+}
+
+module.exports = Transaction;

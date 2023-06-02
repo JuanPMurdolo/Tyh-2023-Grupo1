@@ -5,7 +5,8 @@ class CompositeTransaction {
       this.timestamp = 0;
       this.hash = '';
     }
+    
   
- }
+  }
   
-module.exports = CompositeTransaction;
+  module.exports = CompositeTransaction;
