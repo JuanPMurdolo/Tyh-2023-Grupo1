@@ -1,7 +1,9 @@
 const { SHA256 } = require('jshashes');
 const Blockchain = require('../../src/models/Blockchain.js');
 const Transaction = require('../../src/models/Transaction.js');
-const CompositeTransaction = require('../../src/models/CompositeTransaction.js');
+const CompositeTransaction = require('../../src/models/TransactionComposite.js');
+
+//Work In Progress
 
 describe('Blockchain', () => {
   let blockchain;

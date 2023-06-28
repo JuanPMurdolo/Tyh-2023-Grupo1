@@ -1,12 +1,29 @@
+const {v4: uuidv4} = require('uuid');
+
 class Transaction {
-    constructor(id, sender, recipient, lastTransactionId) {
+    constructor(id, inAddress, outAddress, hash) {
       this.id = id;
-      this.sender = sender;
-      this.recipient = recipient;
-      this.lastTransactionId = lastTransactionId;
-      this.timestamp = 0;
-      this.hash = '';
+      this.inAddress = inAddress;
+      this.outAddress = outAddress;
+      this.hash = hash;
 }
+
+generateTransactionId() {
+  return `Tx-${this.generateUUID()}`;
+}
+
+generateUUID() {
+  return uuidv4();
+} 
+
+isCoinbase() {
+  return this.lastTransactionId === null;
+}
+
+computeTransactionHash(data) {
+  return this.hashFunction(`${data.id}${data.token}${data.sender}${data.recipient}${data.lastTransactionId}${data.timestamp}`);
+}
+
     
 }
 

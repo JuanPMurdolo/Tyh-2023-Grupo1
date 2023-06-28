@@ -2,35 +2,18 @@ const { SHA256, MD5 } = require('jshashes');
 const {v4: uuidv4} = require('uuid');
 const Block = require('./Block');
 const Transaction = require('./Transaction');
-const CompositeTransaction = require('./CompositeTransaction');
+const CompositeTransaction = require('./TransactionComposite');
 
 class Blockchain {
-    constructor() {
-      if (Blockchain.instance) {
-          return Blockchain.instance;
-        }
-        this.chain = [];
-        this.pendingTransactions = [];
-        this.currentBlockTransactions = [];
-        this.nodes = [];
-        this.hashFunction = SHA256;
-        Blockchain.instance = this;
+    constructor(blocks = []) {
+      this.blocks = blocks;
       }
 
-generateTransactionId() {
-  return `Tx-${this.generateUUID()}`;
-}
 
-generateUUID() {
-  return uuidv4();
-} 
 
-createTransaction(token, sender, recipient, lastTransactionId = null) {
-  const transaction = new Transaction(this.generateTransactionId(), token, sender, recipient, lastTransactionId);
-  transaction.timestamp = Date.now();
-  transaction.hash = this.computeTransactionHash(transaction);
-  return transaction;
-}
+
+
+
 
 createCompositeTransaction(transactions) {
   const compositeTransaction = new CompositeTransaction(this.generateTransactionId(), transactions);
