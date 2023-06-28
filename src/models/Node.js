@@ -1,3 +1,5 @@
+const { SHA256 } = require('jshashes');
+
 class Node {
   constructor(OpenBlock, BlockChain) {
     this.OpenBlock = OpenBlock;
