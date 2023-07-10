@@ -1,4 +1,6 @@
-class TransactionCoinbase extends Transaction {
+const TransactionLeaf = require("./TransactionLeaf");
+
+class TransactionCoinbase extends TransactionLeaf {
     constructor(token) {
         super();
         this.token = token;

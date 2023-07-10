@@ -5,3 +5,5 @@ class TransactionLeaf extends Transaction {
         super();
     }
 }
+
+module.exports = TransactionLeaf;

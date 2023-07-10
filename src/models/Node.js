@@ -59,4 +59,7 @@ class Node {
     //to do
   }
 
+  broadcast(){
+    //to do
+  }
 }
