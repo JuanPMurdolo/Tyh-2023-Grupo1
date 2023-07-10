@@ -1,8 +1,8 @@
 const {v4: uuidv4} = require('uuid');
 
 class Transaction {
-    constructor(id, inAddress, outAddress, hash) {
-      this.id = id;
+    constructor(uuid, inAddress, outAddress, hash) {
+      this.uuid = uuid;
       this.inAddress = inAddress;
       this.outAddress = outAddress;
       this.hash = hash;
@@ -15,10 +15,6 @@ generateTransactionId() {
 generateUUID() {
   return uuidv4();
 } 
-
-isCoinbase() {
-  return this.lastTransactionId === null;
-}
 
 computeTransactionHash(data) {
   return this.hashFunction(`${data.id}${data.token}${data.sender}${data.recipient}${data.lastTransactionId}${data.timestamp}`);

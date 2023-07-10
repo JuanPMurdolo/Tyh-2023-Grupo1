@@ -1,6 +1,9 @@
-class TransactionNormal extends Transaction {
-    constructor(token) {
+const TransactionLeaf = require("./TransactionLeaf");
+
+class TransactionNormal extends TransactionLeaf {
+    constructor(txIn) {
         super();
+        this.transactionIn = txIn;
     }
 }
 
