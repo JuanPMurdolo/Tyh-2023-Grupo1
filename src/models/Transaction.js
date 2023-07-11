@@ -1,7 +1,8 @@
 const {v4: uuidv4} = require('uuid');
 
 class Transaction {
-    constructor(uuid, inAddress, outAddress, hash) {
+    constructor(uuid, inAddress, outAddress, hash, node) {
+      this.node = node;
       this.uuid = uuid;
       this.inAddress = inAddress;
       this.outAddress = outAddress;

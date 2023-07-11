@@ -2,7 +2,7 @@ const Transaction = require("./Transaction");
 
 class TransactionComposite extends Transaction {
   constructor(level) {
-      super();
+      super(uuid, inAddress, outAddress, hash, node);
       this.level = level;
   }
 
@@ -11,4 +11,4 @@ class TransactionComposite extends Transaction {
   }
 }
   
-  module.exports = TransactionComposite;
+module.exports = TransactionComposite;
