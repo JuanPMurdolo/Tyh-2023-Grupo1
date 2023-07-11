@@ -1,27 +1,12 @@
-const { SHA256, MD5 } = require('jshashes');
-const {v4: uuidv4} = require('uuid');
-const Block = require('./Block');
-const Transaction = require('./Transaction');
-const CompositeTransaction = require('./TransactionComposite');
+nodes = require('./nodes');
 
 class Blockchain {
-    constructor(blocks = []) {
-      this.blocks = blocks;
+    constructor(nodes = []) {
+      this.nodes = nodes;
       }
 
-
-
-
-
-
-
-
-
-
-
-
-broadcastBlock(block) { 
-  this.nodes.forEach(node => node.addBlock(block));
+addNode(node) {
+    this.nodes.push(node);
 }
 
 }

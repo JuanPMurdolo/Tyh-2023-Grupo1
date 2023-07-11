@@ -1,3 +1,5 @@
+const { sha256 } = require('jhashes');
+
 class SHA256Hash extends Hash{
   constructor() {
     this.name = 'SHA256';
@@ -8,3 +10,5 @@ class SHA256Hash extends Hash{
     return sha256(message);
   }
 }
+
+module.exports = SHA256Hash;

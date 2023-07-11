@@ -63,3 +63,5 @@ class Node {
     //to do
   }
 }
+
+module.exports = Node;

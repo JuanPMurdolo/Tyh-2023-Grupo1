@@ -1,4 +1,4 @@
-const md5 = require('md5');
+const { md5 } = require('jhashes');
 
 class MD5Hash extends Hash {
   constructor() {
