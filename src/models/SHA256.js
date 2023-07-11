@@ -6,9 +6,6 @@ class SHA256Hash extends Hash{
     this.hashLength = 32;
   }
 
-  hash(message) {
-    return sha256(message);
-  }
 }
 
 module.exports = SHA256Hash;

@@ -2,29 +2,30 @@ class Block {
     constructor(timestamp, transactions=[], hash, previousHash) {
       this.timestamp = timestamp;
       this.transactions = transactions;
-      this.hash = hash;
+      this.hash = computeBlockHash(previousHash);
       this.previousHash = previousHash;
-    }
-
-    fullfillHash(){
-        //to do
+      this.status = 'open';
     }
 
     addPreviousHash(){
-        //to do
+      return this.transactions.length > 0 ? this.transactions[this.transactions.length - 1].hash : '';
     }
 
     blockClosure(){
-        const prevBlockHash = this.chain.length > 0 ? this.chain[this.chain.length - 1].hash : '';
+        const previousHash = this.addPreviousHash();
         const timestamp = Date.now();
-        const hash = this.computeBlockHash(this.currentBlockTransactions, prevBlockHash, timestamp);
-        this.currentBlockTransactions = [];
     }
 
-    computeBlockHash(transactions, prevBlockHash, timestamp) {
-      const transactionsHash = transactions.map(transaction => transaction.hash).join('');
-      return this.hashFunction(`${transactionsHash}${prevBlockHash}${timestamp}`);
-    }
+    computeBlockHash(prevBlockHash) {
+      //to do
+      //llamar al hash
+      //retornar el hash del bloque s
+      return 1;
+      }
+
+      hashFunction(data){
+        //to do
+      }
 
     
   }

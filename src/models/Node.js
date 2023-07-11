@@ -1,9 +1,10 @@
 const { SHA256 } = require('jshashes');
+const Blockchain = require('./Blockchain');
 
 class Node {
-  constructor(OpenBlock, BlockChain) {
-    this.OpenBlock = OpenBlock;
-    this.BlockChain = BlockChain;
+  constructor(openBlock, chain = []) {
+    this.openBlock = openBlock;
+    this.blocks = chain;
   }
 
   addTransaction(transaction) {
@@ -40,7 +41,7 @@ class Node {
     }
 
   hashCalculation(data) {
-    return this.hashFunction(`${data.id}${data.token}${data.sender}${data.recipient}${data.lastTransactionId}${data.timestamp}`);
+    
   }
 
   checkTransactionIntegrity(transaction) {

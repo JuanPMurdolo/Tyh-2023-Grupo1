@@ -3,7 +3,6 @@ class StrategyHash {
         this.hash = null;
     }
 
-    setHash(hash) {
-        this.hash = new SHA256Hash();
-    }
 }
+
+module.exports = StrategyHash;
