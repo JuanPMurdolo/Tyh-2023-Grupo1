@@ -2,9 +2,10 @@ const { SHA256 } = require('jshashes');
 const Blockchain = require('./Blockchain');
 
 class Node {
-  constructor(openBlock, chain = []) {
+  constructor(openBlock = [], blocks = [], blockchain) {
     this.openBlock = openBlock;
-    this.blocks = chain;
+    this.blocks = blocks;
+    this.blockchain = blockchain;
   }
 
   addTransaction(transaction) {
