@@ -7,3 +7,5 @@ class Hash{
         return value;
     }
 }
+
+module.exports = Hash;
