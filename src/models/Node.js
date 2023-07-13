@@ -52,7 +52,6 @@ class Node {
     }
   }
     
-  }
 
   checkTransactionIntegrity(transaction) {
     return transaction.hash === this.computeTransactionHash(transaction);
