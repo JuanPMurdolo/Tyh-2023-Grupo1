@@ -15,7 +15,8 @@ class Node {
       //Crea el bloque de 0
       this.blocks.push(this.createNewBlock());
       //Despues pushea la transaction al bloque creado la transaction tiene que ser de tipo CoinBase
-      //Check if the transaction coinbase or not
+      
+      //Se chequea si la transaccion es o no coinbase?
       if (transaction.isInstanceOf(CoinBase)) {
         this.blocks[0].transactions.push(transaction);
       };     
