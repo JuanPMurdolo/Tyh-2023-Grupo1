@@ -1,5 +1,5 @@
 class Block {
-    constructor(timestamp, transactions=[], hash, previousHash) {
+    constructor(timestamp, transactions=[], previousHash) {
       this.timestamp = timestamp;
       this.transactions = transactions;
       this.hash = computeBlockHash(previousHash);
@@ -26,7 +26,6 @@ class Block {
       hashFunction(data){
         //to do
       }
-
     
   }
   

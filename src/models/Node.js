@@ -1,5 +1,6 @@
 const { SHA256 } = require('jshashes');
 const Blockchain = require('./Blockchain');
+const Block = require('./Block');
 
 class Node {
   constructor(openBlock = [], blocks = [], blockchain) {
@@ -9,15 +10,38 @@ class Node {
   }
 
   addTransaction(transaction) {
-        //to do
+    if (this.blocks.length === 0) {
+      //si no hay bloques
+      //Crea el bloque de 0
+      this.blocks.push(this.createNewBlock());
+      //Despues pushea la transaction al bloque creado la transaction tiene que ser de tipo CoinBase
+      //Check if the transaction coinbase or not
+      if (transaction.isInstanceOf(CoinBase)) {
+        this.blocks[0].transactions.push(transaction);
+      };     
+    } else {
+      //si no agarra el ultimo bloque
+      const lastBlock = this.blocks[this.blocks.length - 1];
+      if (lastBlock.transactions.length < 10) {
+        lastBlock.transactions.push(transaction);
+      } else {
+        //si ya tiene las 10 transactions se cierra
+        this.lastBlock.status = 'closed';
+        //se crea un nuevo bloque
+        const newBlock = this.createNewBlock();
+        //se pushea la transaction al nuevo bloque
+        newBlock.transactions.push(transaction);
+        //se pushea el nuevo bloque al array de bloques
+        this.blocks.push(newBlock);
+      }
     }
-      
+  }
 
   addCompositeTransaction(compositeTransaction) {
     //to do
     }
 
-  hashCalculation(data) {
+  hashCalculation() {
     
   }
 
@@ -30,7 +54,7 @@ class Node {
   }
 
   createNewBlock(){
-    //to do
+    this.blocks.push(new Block(Date.now(), [], this.blocks[this.blocks.length - 1].hash));
   }
 
   createTransaction(){
