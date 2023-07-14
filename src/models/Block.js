@@ -35,6 +35,10 @@ class Block {
       hashFunction(data, hash){
         
       }
+
+    closeBlock() {
+      this.status = 'closed';
+    }
     
   }
   

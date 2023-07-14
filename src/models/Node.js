@@ -23,18 +23,18 @@ class Node {
       };     
     } else {
       //si no agarra el ultimo bloque
-      const lastBlock = this.blocks[this.blocks.length - 1];
+      var lastBlock = this.blocks[this.blocks.length - 1];
       if (lastBlock.transactions.length < 10) {
         lastBlock.transactions.push(transaction);
       } else {
         //si ya tiene las 10 transactions se cierra
-        this.lastBlock.status = 'closed';
+        lastBlock.closeBlock();
         //se crea un nuevo bloque
-        const newBlock = this.createNewBlock();
+        this.createNewBlock();
+        var lastBlock = this.blocks[this.blocks.length - 1];
+        console.log(lastBlock)
         //se pushea la transaction al nuevo bloque
-        newBlock.transactions.push(transaction);
-        //se pushea el nuevo bloque al array de bloques
-        this.blocks.push(newBlock);
+        lastBlock.transactions.push(transaction);
       }
     }
   }

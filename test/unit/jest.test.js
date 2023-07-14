@@ -25,7 +25,7 @@ expect (node).toBeDefined();
 
 node.createNewBlock();
 test ('Se crea un nuevo bloque', () => {
-expect (node.blocks.length).toBe(1);
+expect (node.blocks.length).toBe(2);
 });
 
 node.addTransaction(coinbase);
@@ -33,3 +33,12 @@ test ('Se agrega la transaccion coinbase al node', () => {
 expect (node.blocks[0].transactions[0]).toBe(coinbase);
 });
 
+
+//se crean 10 transacciones
+for (let i = 0; i < 10; i++) {
+    const coinbase = new TransactionCoinbase('token', i, 'inAddress', 'outAddress', 'hash', 'node');
+    node.addTransaction(coinbase);
+    }
+test ('Se agregan 10 transacciones al node', () => {
+expect (node.blocks[node.blocks.length - 1].transactions.length).toBe(1);
+});
