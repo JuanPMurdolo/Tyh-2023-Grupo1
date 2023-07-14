@@ -38,6 +38,9 @@ class Block {
 
     closeBlock() {
       this.transactions.forEach(transaction => {
+        if (transaction.status === 'pending') {
+          transaction.closeTransaction();
+        }
         console.log(transaction);
       });
       this.status = 'closed';
