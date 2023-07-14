@@ -7,9 +7,10 @@ const Node = require('../../src/models/Node');
 //El bloque se cierra a las 10 transacciones
 
 //Crear una transaccion coinbase
-const coinbase = new TransactionCoinbase('token', 'uuid', 'inAddress', 'outAddress', 'hash', 'node');
+const coinbase = new TransactionCoinbase('token', 'inAddress', 'outAddress', 'hash', 'node');
+const uid = coinbase.uuid;
 test('token es NombreToken+UUID', () => {
-expect (coinbase.token).toBe('token-uuid');
+expect (coinbase.uuid).toBe(uid);
 });
 
 var blockchain = new Blockchain();

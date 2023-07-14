@@ -1,8 +1,8 @@
 const Transaction = require("./Transaction");
 
 class TransactionLeaf extends Transaction {
-    constructor(uuid, inAddress, outAddress, encriptionForm, node) {
-        super(uuid, inAddress, outAddress, encriptionForm, node);
+    constructor(inAddress, outAddress, encriptionForm, node) {
+        super(inAddress, outAddress, encriptionForm, node);
     }
 }
 

@@ -4,9 +4,9 @@ const SHA256 = require('./SHA256');
 
 
 class Transaction {
-    constructor(uuid, inAddress, outAddress, encriptionForm, node) {
+    constructor(inAddress, outAddress, encriptionForm, node) {
       this.node = node;
-      this.uuid = uuid;
+      this.uuid = this.generateTransactionId();
       this.inAddress = inAddress;
       this.outAddress = outAddress;
       this.hash = this.computeTransactionHash(encriptionForm);
