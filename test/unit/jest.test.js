@@ -4,7 +4,7 @@ const Node = require('../../src/models/Node');
 
 //Work In Progress
 
-//El bloque se cierra a las 10 transacciones
+
 
 //Crear una transaccion coinbase
 const coinbase = new TransactionCoinbase('token', 'inAddress', 'outAddress', 'hash', 'node');
@@ -36,10 +36,12 @@ expect (node.blocks[0].transactions[0]).toBe(coinbase);
 
 
 //se crean 10 transacciones
+//El bloque se cierra a las 10 transacciones
 for (let i = 0; i < 10; i++) {
     const coinbase = new TransactionCoinbase('token', i, 'inAddress', 'outAddress', 'hash', 'node');
     node.addTransaction(coinbase);
     }
 test ('Se agregan 10 transacciones al node', () => {
+expect (node.blocks[0].transactions.length).toBe(10);
 expect (node.blocks[node.blocks.length - 1].transactions.length).toBe(1);
 });
