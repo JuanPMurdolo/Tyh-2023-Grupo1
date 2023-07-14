@@ -59,14 +59,23 @@ class Node {
 
   verifyHashNode(){
     //to do
+
   }
 
   createNewBlock(){
     this.blocks.push(new Block(Date.now(), [], this.blocks[this.blocks.length - 1].hash));
   }
 
-  createTransaction(){
-    //to do
+  createTransaction(type, uuid, inAddress, outAddress, encriptionForm, token = ''){
+    if (type === 'coinbase') {
+      return new TransactionCoinbase(token, uuid, inAddress, outAddress, encriptionForm, this);
+    }
+    else if (type === 'composite') {
+      return new TransactionComposite(level,uuid, inAddress, outAddress, encriptionForm, this);
+    }
+    else {
+      return new TransactionNormal(txIn, uuid, inAddress, outAddress, encriptionForm, this);
+    }
   }
 
   broadcast(){

@@ -1,8 +1,8 @@
 const TransactionLeaf = require("./TransactionLeaf");
 
 class TransactionCoinbase extends TransactionLeaf {
-    constructor(token, uuid, inAddress, outAddress, hash, node) {
-        super(uuid, inAddress, outAddress, hash, node);
+    constructor(token, uuid, inAddress, outAddress, encriptionForm, node) {
+        super(uuid, inAddress, outAddress, encriptionForm, node);
         this.token = this.generateTokenId(token);
     }
 

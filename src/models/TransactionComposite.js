@@ -1,8 +1,8 @@
 const Transaction = require("./Transaction");
 
 class TransactionComposite extends Transaction {
-  constructor(level) {
-      super(uuid, inAddress, outAddress, hash, node);
+  constructor(level,uuid, inAddress, outAddress, encriptionForm, node) {
+      super(uuid, inAddress, outAddress, encriptionForm, node);
       this.level = level;
   }
 

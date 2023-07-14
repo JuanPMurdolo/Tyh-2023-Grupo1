@@ -25,8 +25,10 @@ computeTransactionHash(encriptionForm) {
   if (encriptionForm == 'md5') {
     const encription = new MD5Hash();
   } else {
+    //SHA256Hash es el default
     const encription = new SHA256Hash();
   }
+
   return this.hashFunction(`${this.uuid}${this.node}${this.outAddress}${this.inAddress}${this.status}`, encription);
 }
 
@@ -38,9 +40,6 @@ closeTransaction() {
   this.status = 'closed';
 }
 
-
-
-    
 }
 
 module.exports = Transaction;
