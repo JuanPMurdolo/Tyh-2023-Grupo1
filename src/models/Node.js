@@ -2,6 +2,7 @@ const { SHA256 } = require('jshashes');
 const Blockchain = require('./Blockchain');
 const Block = require('./Block');
 const MD5Hash = require('./MD5Hash');
+const TransactionCoinbase = require('./TransactionCoinbase');
 
 class Node {
   constructor(openBlock = [], blocks = [], blockchain) {
@@ -14,11 +15,12 @@ class Node {
     if (this.blocks.length === 0) {
       //si no hay bloques
       //Crea el bloque de 0
-      this.blocks.push(this.createNewBlock());
+      this.createNewBlock();
       //Despues pushea la transaction al bloque creado la transaction tiene que ser de tipo CoinBase
 
       //Se chequea si la transaccion es o no coinbase?
-      if (transaction.isInstanceOf(CoinBase)) {
+
+      if (transaction instanceof TransactionCoinbase) {
         this.blocks[0].transactions.push(transaction);
       };     
     } else {
