@@ -1,12 +1,12 @@
 const {v4: uuidv4} = require('uuid');
 
 class Transaction {
-    constructor(uuid, inAddress, outAddress, hash, node) {
+    constructor(uuid, inAddress, outAddress, encriptionForm, node) {
       this.node = node;
       this.uuid = uuid;
       this.inAddress = inAddress;
       this.outAddress = outAddress;
-      this.hash = hash;
+      this.hash = this.computeTransactionHash(encriptionForm);
       this.status = 'pending';
 }
 
@@ -18,13 +18,25 @@ generateUUID() {
   return uuidv4();
 } 
 
-computeTransactionHash(data) {
-  return this.hashFunction(`${data.id}${data.token}${data.sender}${data.recipient}${data.lastTransactionId}${data.timestamp}`);
+computeTransactionHash(encriptionForm) {
+  if (encriptionForm == 'md5') {
+    const encription = new MD5Hash();
+  } else {
+    const encription = new SHA256Hash();
+  }
+
+  return this.hashFunction(`${this.uuid}${this.node}${this.outAddress}${this.inAddress}${this.status}`, encription);
+}
+
+hashFunction(data, encription) {
+  return encription.hash(data);
 }
 
 closeTransaction() {
   this.status = 'closed';
 }
+
+
 
     
 }

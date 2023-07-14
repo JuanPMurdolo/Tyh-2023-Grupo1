@@ -19,16 +19,15 @@ class Block {
     computeBlockHash(block) {
       //Se confirman todas las transacciones cerradas primero
       block.transactions.forEach(transaction => {
-        if (transaction.status === 'closed') {
-          //Se calcula el hash de la transacciones
-          transaction.hash = this.hashFunction(transaction);
+        if (transaction.status === 'closed') {      
+          //Se agrega el hash de la transaccion al hash del bloque
+          block.hash += transaction.hash;
         }
       });
-      
       //to do
       block.status = 'closed';
+      //Se calcula el hash final del bloque
       
-      //Se calcula el hash del bloque
       //retornar el hash del bloque
       return 1;
       }
