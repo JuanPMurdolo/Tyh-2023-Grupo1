@@ -1,4 +1,7 @@
 const {v4: uuidv4} = require('uuid');
+const MD5Hash = require('../hash/MD5Hash');
+const SHA256Hash = require('../hash/SHA256Hash');
+
 
 class Transaction {
     constructor(uuid, inAddress, outAddress, encriptionForm, node) {
@@ -24,7 +27,6 @@ computeTransactionHash(encriptionForm) {
   } else {
     const encription = new SHA256Hash();
   }
-
   return this.hashFunction(`${this.uuid}${this.node}${this.outAddress}${this.inAddress}${this.status}`, encription);
 }
 
