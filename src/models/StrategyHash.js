@@ -1,6 +1,7 @@
 class StrategyHash {
     constructor() {
-        this.hash = null;
+        this.name = null;
+        this.hashLength = null;
     }
 
 }

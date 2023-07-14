@@ -7,6 +7,7 @@ class Transaction {
       this.inAddress = inAddress;
       this.outAddress = outAddress;
       this.hash = hash;
+      this.status = 'pending';
 }
 
 generateTransactionId() {
@@ -19,6 +20,10 @@ generateUUID() {
 
 computeTransactionHash(data) {
   return this.hashFunction(`${data.id}${data.token}${data.sender}${data.recipient}${data.lastTransactionId}${data.timestamp}`);
+}
+
+closeTransaction() {
+  this.status = 'closed';
 }
 
     

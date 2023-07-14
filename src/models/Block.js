@@ -8,7 +8,7 @@ class Block {
     }
 
     addPreviousHash(){
-      return this.transactions.length > 0 ? this.transactions[this.transactions.length - 1].hash : '';
+      return true;
     }
 
     blockClosure(){
@@ -16,15 +16,25 @@ class Block {
         const timestamp = Date.now();
     }
 
-    computeBlockHash(prevBlockHash) {
+    computeBlockHash(block) {
+      //Se confirman todas las transacciones cerradas primero
+      block.transactions.forEach(transaction => {
+        if (transaction.status === 'closed') {
+          //Se calcula el hash de la transacciones
+          transaction.hash = this.hashFunction(transaction);
+        }
+      });
+      
       //to do
-      //llamar al hash
-      //retornar el hash del bloque s
+      block.status = 'closed';
+      
+      //Se calcula el hash del bloque
+      //retornar el hash del bloque
       return 1;
       }
 
-      hashFunction(data){
-        //to do
+      hashFunction(data, hash){
+        
       }
     
   }
