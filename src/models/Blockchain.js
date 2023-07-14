@@ -1,13 +1,6 @@
-nodes = require('./nodes');
-
 class Blockchain {
-    constructor(nodes = []) {
-      this.nodes = nodes;
+    constructor() {
       }
-
-addNode(node) {
-    this.nodes.push(node);
-}
 
 }
 

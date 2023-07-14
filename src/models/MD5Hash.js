@@ -1,4 +1,5 @@
-const { md5 } = require('jhashes');
+var Hashes = require('jshashes')
+const Hash = require('./Hash');
 
 class MD5Hash extends Hash {
   constructor() {
@@ -7,7 +8,8 @@ class MD5Hash extends Hash {
   }
 
   hash(value) {
-    return md5(value);
+    var md5 = new Hashes.MD5;
+    return md5.hex(value);
   }
 }
 

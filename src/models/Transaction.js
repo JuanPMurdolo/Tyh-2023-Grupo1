@@ -1,6 +1,6 @@
 const {v4: uuidv4} = require('uuid');
-const MD5Hash = require('../hash/MD5Hash');
-const SHA256Hash = require('../hash/SHA256Hash');
+const MD5Hash = require('./MD5Hash');
+const SHA256 = require('./SHA256');
 
 
 class Transaction {
@@ -23,10 +23,10 @@ generateUUID() {
 
 computeTransactionHash(encriptionForm) {
   if (encriptionForm == 'md5') {
-    const encription = new MD5Hash();
+    var encription = new MD5Hash();
   } else {
     //SHA256Hash es el default
-    const encription = new SHA256Hash();
+    var encription = new SHA256();
   }
 
   return this.hashFunction(`${this.uuid}${this.node}${this.outAddress}${this.inAddress}${this.status}`, encription);

@@ -9,9 +9,11 @@
   "author": "Gregorio Abraham Jurado y Juan Murdolo",
   "license": "ISC",
   "dependencies": {
-    "jest": "^29.5.0",
     "jshashes": "^1.0.8",
     "md5": "^2.3.0",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.6.1"
   }
 }
