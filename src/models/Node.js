@@ -63,7 +63,7 @@ class Node {
   }
 
   createNewBlock(){
-    this.blocks.push(new Block(Date.now(), [], this.blocks[this.blocks.length - 1].hash));
+    this.blocks.push(new Block(Date.now(), []));
   }
 
   createTransaction(type, uuid, inAddress, outAddress, encriptionForm, token = ''){

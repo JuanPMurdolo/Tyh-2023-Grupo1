@@ -1,8 +1,8 @@
 class Block {
-    constructor(timestamp, transactions=[], previousHash) {
+    constructor(timestamp, transactions=[], previousHash='') {
       this.timestamp = timestamp;
       this.transactions = transactions;
-      this.hash = computeBlockHash(previousHash);
+      this.hash = '';
       this.previousHash = previousHash;
       this.status = 'open';
     }
@@ -27,7 +27,7 @@ class Block {
       //to do
       block.status = 'closed';
       //Se calcula el hash final del bloque
-      
+
       //retornar el hash del bloque
       return 1;
       }

@@ -23,3 +23,13 @@ test ('Node se crea', () => {
 expect (node).toBeDefined();
 });
 
+node.createNewBlock();
+test ('Se crea un nuevo bloque', () => {
+expect (node.blocks.length).toBe(1);
+});
+
+node.addTransaction(coinbase);
+test ('Se agrega la transaccion coinbase al node', () => {
+expect (node.blocks[0].transactions[0]).toBe(coinbase);
+});
+
