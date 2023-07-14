@@ -37,7 +37,14 @@ class Block {
       }
 
     closeBlock() {
+      this.transactions.forEach(transaction => {
+        console.log(transaction);
+      });
       this.status = 'closed';
+    }
+
+    toString() {
+      return JSON.stringify(this);
     }
     
   }
