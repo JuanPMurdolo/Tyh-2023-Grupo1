@@ -31,6 +31,7 @@ class Node {
       } else {
         //si ya tiene las 10 transactions se cierra
         lastBlock.closeBlock();
+        this.previousHash = lastBlock.hash;
         //se crea un nuevo bloque
         this.createNewBlock();
         var lastBlock = this.blocks[this.blocks.length - 1];
@@ -64,8 +65,8 @@ class Node {
 
   }
 
-  createNewBlock(){
-    this.blocks.push(new Block(Date.now(), []));
+  createNewBlock(previousHash = ''){
+    this.blocks.push(new Block(Date.now(), [], previousHash));
   }
 
   createTransaction(type, uuid, inAddress, outAddress, encriptionForm, token = ''){

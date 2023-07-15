@@ -37,12 +37,15 @@ class Block {
       }
 
     closeBlock() {
+      var hash = 0;
       this.transactions.forEach(transaction => {
         if (transaction.status === 'pending') {
           transaction.closeTransaction();
+          hash += transaction.hash;
         }
         console.log(transaction);
       });
+      this.hash = hash;
       this.status = 'closed';
     }
 

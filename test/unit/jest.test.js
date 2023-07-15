@@ -62,3 +62,10 @@ node.addTransaction(transaction);
 test ('Se agrega la transaccion normal al node', () => {
 expect (node.blocks[node.blocks.length - 1].transactions.length).toBe(2);
 });
+
+//check the hashes de bloques
+test ('Se chequea el hash del bloque vs el previo', () => {
+    var lastHash = node.blocks[node.blocks.length - 1].previousHash;
+    var prevHash = node.blocks[0].previousHash;
+    expect (lastHash).toBe(prevHash);
+});
