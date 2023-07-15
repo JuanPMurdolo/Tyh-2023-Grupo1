@@ -3,8 +3,8 @@ class Hash{
         this.name = '';
     }
     
-    hash(value) {
-        return value;
+    hash() {
+        throw new Error('Se debe usar una clase que herede de Hash');
     }
 }
 

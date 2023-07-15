@@ -4,7 +4,7 @@
   "description": "Trabajo final de Tecnicas y Herramientas",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "author": "Gregorio Abraham Jurado y Juan Murdolo",
   "license": "ISC",

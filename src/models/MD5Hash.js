@@ -3,8 +3,7 @@ const Hash = require('./Hash');
 
 class MD5Hash extends Hash {
   constructor() {
-    this.name = 'MD5Hash';
-    this.hashLength = 16;
+    super('MD5', 16);
   }
 
   hash(value) {

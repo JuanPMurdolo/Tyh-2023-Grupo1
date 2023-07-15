@@ -2,10 +2,7 @@ const TransactionCoinbase = require('../../src/models/TransactionCoinbase');
 const Blockchain = require('../../src/models/Blockchain');
 const Node = require('../../src/models/Node');
 const TransactionNormal = require('../../src/models/TransactionNormal');
-
-//Work In Progress
-
-
+const Hash = require('../../src/models/Hash');
 
 //Crear una transaccion coinbase
 const coinbase = new TransactionCoinbase('token', 'inAddress', 'outAddress', 'hash', 'node');
@@ -68,4 +65,19 @@ test ('Se chequea el hash del bloque vs el previo', () => {
     var lastHash = node.blocks[node.blocks.length - 1].previousHash;
     var prevHash = node.blocks[0].previousHash;
     expect (lastHash).toBe(prevHash);
+});
+
+//Testear composite Transactions
+
+//Testear el hash
+const transaction2 = new TransactionNormal(lastTrans, 'inAddress', 'outAddress', 'MD5', node);
+test ('Se crea una transaccion con MD5', () => {
+expect (transaction2.hash).toBeDefined();
+});
+
+
+//Se testea hash solo
+const hash = new Hash();
+test ('Se usa la funcion de hash', () => {
+expect(() => { (hash.hash()).toThrow('Se debe usar una clase que herede de Hash')});
 });

@@ -22,12 +22,13 @@ generateUUID() {
 } 
 
 computeTransactionHash(encriptionForm) {
-  if (encriptionForm == 'md5') {
+  if (encriptionForm == 'MD5') {
     var encription = new MD5Hash();
   } else {
     //SHA256Hash es el default
     var encription = new SHA256();
   }
+  console.log(encription)
 
   return this.hashFunction(`${this.uuid}${this.node}${this.outAddress}${this.inAddress}${this.status}`, encription);
 }
