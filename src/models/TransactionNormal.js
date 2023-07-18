@@ -1,8 +1,8 @@
-const TransactionLeaf = require("./TransactionLeaf");
+const Transaction = require("./Transaction");
 
-class TransactionNormal extends TransactionLeaf {
-    constructor(txIn, inAddress, outAddress, encriptionForm, node) {
-        super(inAddress, outAddress, encriptionForm, node);
+class TransactionNormal extends Transaction {
+    constructor(txIn, inAddress, outAddress, hashStrategy, node) {
+        super(inAddress, outAddress, hashStrategy, node);
         this.transactionIn = txIn;
     }
 }
