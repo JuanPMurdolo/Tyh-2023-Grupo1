@@ -2,11 +2,8 @@ var Hashes = require('jshashes')
 const Hash = require('./Hash');
 
 class SHA256Hash extends Hash{
-  constructor() {
-    super('SHA256', 32)
-  }
 
-  hash(value) {
+  generateHash(value) {
     var SHA256 = new Hashes.SHA256;
     return SHA256.hex(value);
   }

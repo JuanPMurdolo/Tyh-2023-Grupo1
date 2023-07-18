@@ -4,12 +4,12 @@ const SHA256 = require('./SHA256');
 
 
 class Transaction {
-    constructor(inAddress, outAddress, encriptionForm, node) {
+    constructor(inAddress, outAddress, hashStrategy, node) {
       this.node = node;
       this.uuid = this.generateTransactionId();
       this.inAddress = inAddress;
       this.outAddress = outAddress;
-      this.hash = this.computeTransactionHash(encriptionForm);
+      this.hash = hashStrategy;
       this.status = 'pending';
 }
 
@@ -21,20 +21,15 @@ generateUUID() {
   return uuidv4();
 } 
 
-computeTransactionHash(encriptionForm) {
-  if (encriptionForm == 'MD5') {
-    var encription = new MD5Hash();
-  } else {
-    //SHA256Hash es el default
-    var encription = new SHA256();
-  }
-  console.log(encription)
-
-  return this.hashFunction(`${this.uuid}${this.node}${this.outAddress}${this.inAddress}${this.status}`, encription);
+setHash(hashStrategy) {
+  this.hash = hashStrategy;
 }
 
-hashFunction(data, encription) {
-  return encription.hash(data);
+calculateHash() {
+  if (!this.hash) {
+    throw new Error('No se ha configurado una estrategia de hash');
+  }
+  return this.hash.generateHash(`${this.node}${this.outAddress}${this.inAddress}${this.status}`);
 }
 
 closeTransaction() {

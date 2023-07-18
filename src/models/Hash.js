@@ -1,9 +1,6 @@
 class Hash{
-    constructor() {
-        this.name = '';
-    }
-    
-    hash() {
+
+    generateHash(value) {
         throw new Error('Se debe usar una clase que herede de Hash');
     }
 }
