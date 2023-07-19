@@ -12,7 +12,7 @@ class Node {
   }
 
   addTransaction(transaction) {
-    if (this.blocks.length === 0) {
+    if (this.openBlock.length === 0) {
       //si no hay bloques
       //Crea el bloque de 0
       this.createNewBlock();
@@ -21,20 +21,21 @@ class Node {
       //Se chequea si la transaccion es o no coinbase?
 
       if (transaction instanceof TransactionCoinbase) {
-        this.blocks[0].transactions.push(transaction);
+        this.openBlock[0].transactions.push(transaction);
       };     
     } else {
       //si no agarra el ultimo bloque
-      var lastBlock = this.blocks[this.blocks.length - 1];
+      var lastBlock = this.openBlock[this.openBlock.length - 1];
       if (lastBlock.transactions.length < 10) {
         lastBlock.transactions.push(transaction);
       } else {
         //si ya tiene las 10 transactions se cierra
         lastBlock.closeBlock();
+        this.blocks.push(lastBlock);
         this.previousHash = lastBlock.hash;
         //se crea un nuevo bloque
         this.createNewBlock();
-        var lastBlock = this.blocks[this.blocks.length - 1];
+        var lastBlock = this.openBlock[this.openBlock.length - 1];
         console.log(lastBlock)
         //se pushea la transaction al nuevo bloque
         lastBlock.transactions.push(transaction);
@@ -66,7 +67,7 @@ class Node {
   }
 
   createNewBlock(previousHash = ''){
-    this.blocks.push(new Block(Date.now(), [], previousHash));
+    this.openBlock.push(new Block(Date.now(), [], previousHash));
   }
 
   createTransaction(type, uuid, inAddress, outAddress, encriptionForm, token = ''){
