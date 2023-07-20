@@ -3,7 +3,7 @@ class Block {
       this.timestamp = timestamp;
       this.transactions = transactions;
       this.hash = '';
-      this.previousHash = this.addPreviousHash();
+      this.previousHash = '';
       this.status = 'open';
     }
 
@@ -16,11 +16,6 @@ class Block {
       } else {
       return previousHash;
       }
-    }
-
-    blockClosure(){
-        const previousHash = this.addPreviousHash();
-        const timestamp = Date.now();
     }
 
     computeBlockHash(block) {

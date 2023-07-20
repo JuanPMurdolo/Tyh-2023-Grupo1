@@ -31,31 +31,27 @@ expect (node).toBeDefined();
 
 node.addTransaction(coinbase);
 test ('Se agrega la transaccion coinbase al node', () => {
-expect (node.blocks[0].transactions[0]).toBe(coinbase);
+expect (node.openBlock[0].transactions[0]).toBe(coinbase);
 });
 
 
 //se crean 10 transacciones
 //El bloque se cierra a las 10 transacciones
 for (let i = 0; i < 10; i++) {
-    if (i = 0) {
-    var transaction = new TransactionCoinbase('token', i, 'inAddress', 'outAddress', 'hash', node);
-} else {
-    const lastTrans = node.blocks[node.blocks.length - 1].transactions[node.blocks.length - 1]?.uuid;
+    var lastTrans = node.openBlock[node.openBlock.length - 1]?.transactions[node.openBlock.length - 1]?.uuid;
     var transaction = new TransactionSimple(lastTrans, 'inAddress', 'outAddress', 'hash', node);
-}
     node.addTransaction(transaction);
     }
 test ('Se agregan 10 transacciones al node', () => {
-expect (node.blocks[0].transactions.length).toBe(10);
-expect (node.blocks[node.blocks.length - 1].transactions.length).toBe(2);
+expect (node.openBlock[0].transactions.length).toBe(10);
+expect (node.openBlock[node.openBlock.length - 1].transactions.length).toBe(2);
 });
 
 
 //crear transaccion normal
 // buscar la ultima transaccion que involucra a este token
-const lastTrans = node.blocks[node.blocks.length - 1].transactions[node.blocks.length - 1]?.uuid;
-const transaction = new TransactionSimple(lastTrans, 'inAddress', 'outAddress', 'hash', node);
+var lastTrans = node.openBlock[node.openBlock.length - 1].transactions[node.openBlock.length - 1]?.uuid;
+var transaction = new TransactionSimple(lastTrans, 'inAddress', 'outAddress', 'hash', node);
 test ('Se crea una transaccion normal', () => {
 expect (transaction).toBeDefined();
 });
@@ -63,13 +59,13 @@ expect (transaction).toBeDefined();
 //Se agrega la transaccion normal al nodo
 node.addTransaction(transaction);
 test ('Se agrega la transaccion normal al node', () => {
-expect (node.blocks[node.blocks.length - 1].transactions.length).toBe(2);
+expect (node.openBlock[node.openBlock.length - 1].transactions.length).toBe(2);
 });
 
 //check the hashes de bloques
 test ('Se chequea el hash del bloque vs el previo', () => {
-    var lastHash = node.blocks[node.blocks.length - 1].previousHash;
-    var prevHash = node.blocks[0].previousHash;
+    var lastHash = node.openBlock[node.openBlock.length - 1].previousHash;
+    var prevHash = node.openBlock[0].previousHash;
     expect (lastHash).toBe(prevHash);
 });
 
