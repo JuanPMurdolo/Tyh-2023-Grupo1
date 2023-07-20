@@ -8,7 +8,7 @@ class Node {
   constructor(openBlock = [], blocks = [], blockchain) {
     this.openBlock = openBlock;
     this.blocks = blocks;
-    this.blockchain = blockchain;
+    this.blockchain = new Blockchain();
   }
 
   addTransaction(transaction) {
