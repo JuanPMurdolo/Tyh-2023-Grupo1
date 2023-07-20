@@ -38,8 +38,13 @@ expect (node.blocks[0].transactions[0]).toBe(coinbase);
 //se crean 10 transacciones
 //El bloque se cierra a las 10 transacciones
 for (let i = 0; i < 10; i++) {
-    const coinbase = new TransactionCoinbase('token', i, 'inAddress', 'outAddress', 'hash', node);
-    node.addTransaction(coinbase);
+    if (i = 0) {
+    var transaction = new TransactionCoinbase('token', i, 'inAddress', 'outAddress', 'hash', node);
+} else {
+    const lastTrans = node.blocks[node.blocks.length - 1].transactions[node.blocks.length - 1]?.uuid;
+    var transaction = new TransactionSimple(lastTrans, 'inAddress', 'outAddress', 'hash', node);
+}
+    node.addTransaction(transaction);
     }
 test ('Se agregan 10 transacciones al node', () => {
 expect (node.blocks[0].transactions.length).toBe(10);

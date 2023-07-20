@@ -1,14 +1,21 @@
 class Block {
-    constructor(timestamp, transactions=[], previousHash='') {
+    constructor(timestamp, transactions=[]) {
       this.timestamp = timestamp;
       this.transactions = transactions;
       this.hash = '';
-      this.previousHash = previousHash;
+      this.previousHash = this.addPreviousHash();
       this.status = 'open';
     }
 
-    addPreviousHash(){
-      return true;
+    addPreviousHash(node){
+      //previous hash va a ser el ultimo bloque cerrado de la blockchain
+      const previousHash = node.blockchain.blocks[node.blockchain.blocks.length - 1].hash;
+      //si previous hash esta vacio o no existe retornamos vacio
+      if (previousHash === undefined || previousHash === null){
+        return '';
+      } else {
+      return previousHash;
+      }
     }
 
     blockClosure(){

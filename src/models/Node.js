@@ -31,7 +31,9 @@ class Node {
       } else {
         //si ya tiene las 10 transactions se cierra
         lastBlock.closeBlock();
-        this.blocks.push(lastBlock);
+        //se agrega el bloque a la blockchain
+        this.broadcast(lastBlock);
+        
         this.previousHash = lastBlock.hash;
         //se crea un nuevo bloque
         this.createNewBlock();
@@ -82,8 +84,8 @@ class Node {
     }
   }
 
-  broadcast(){
-    //to do
+  broadcast(block){
+    this.blockchain.addBlock(block);
   }
 }
 
