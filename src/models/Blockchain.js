@@ -1,19 +1,20 @@
+
 class Blockchain {
   constructor() {
-    if (Blockchain.instance) {
-      return Blockchain.instance;
-    }
+    this.chain = [];
+  }
 
-    this.blocks = [];
-    Blockchain.instance = this;
+  static getInstance() {
+    if (!Blockchain.instance) {
+      Blockchain.instance = new Blockchain();
+    }
+    return Blockchain.instance;
   }
 
   addBlock(block) {
-    this.blocks.push(block);
-  }
-
-  getBlockchain() {
-    return this.blocks;
+    this.chain.push(block);
   }
 }
+
 module.exports = Blockchain;
+
