@@ -1,7 +1,7 @@
 const TransactionCoinbase = require('../../src/models/TransactionCoinbase');
 const Blockchain = require('../../src/models/Blockchain');
 const Node = require('../../src/models/Node');
-const TransactionNormal = require('../../src/models/TransactionNormal');
+const TransactionSimple = require('../../src/models/TransactionSimple');
 const Hash = require('../../src/models/Hash');
 const TransactionComposite = require('../../src/models/TransactionComposite');
 
@@ -50,7 +50,7 @@ expect (node.blocks[node.blocks.length - 1].transactions.length).toBe(2);
 //crear transaccion normal
 // buscar la ultima transaccion que involucra a este token
 const lastTrans = node.blocks[node.blocks.length - 1].transactions[node.blocks.length - 1]?.uuid;
-const transaction = new TransactionNormal(lastTrans, 'inAddress', 'outAddress', 'hash', node);
+const transaction = new TransactionSimple(lastTrans, 'inAddress', 'outAddress', 'hash', node);
 test ('Se crea una transaccion normal', () => {
 expect (transaction).toBeDefined();
 });
@@ -71,7 +71,7 @@ test ('Se chequea el hash del bloque vs el previo', () => {
 //Testear composite Transactions
 
 //Testear el hash
-const transaction2 = new TransactionNormal(lastTrans, 'inAddress', 'outAddress', 'MD5', node);
+const transaction2 = new TransactionSimple(lastTrans, 'inAddress', 'outAddress', 'MD5', node);
 test ('Se crea una transaccion con MD5', () => {
 expect (transaction2.hash).toBeDefined();
 });
