@@ -29,14 +29,19 @@ class Node {
       if (lastBlock.transactions.length < 10) {
         lastBlock.transactions.push(transaction);
       } else {
+        
         //si ya tiene las 10 transactions se cierra
         lastBlock.closeBlock();
-        this.blocks.push(lastBlock);
-        this.previousHash = lastBlock.hash;
+
+        //se agrega el bloque a la blockchain
+        this.broadcast(lastBlock);
+
         //se crea un nuevo bloque
         this.createNewBlock();
+
         var lastBlock = this.openBlock[this.openBlock.length - 1];
-        console.log(lastBlock)
+        lastBlock.addPreviousHash(this);
+
         //se pushea la transaction al nuevo bloque
         lastBlock.transactions.push(transaction);
       }
@@ -82,8 +87,8 @@ class Node {
     }
   }
 
-  broadcast(){
-    //to do
+  broadcast(block){
+    this.blockchain.addBlock(block);
   }
 }
 
