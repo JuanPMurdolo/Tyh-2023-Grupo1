@@ -38,6 +38,10 @@ class Transaction {
     this.status = 'closed';
   }
 
+  getData() {
+    return `${this.node}${this.outAddress}${this.inAddress}${this.status}`;
+  }
+
 }
 
 module.exports = Transaction;

@@ -3,12 +3,14 @@ const Blockchain = require('./Blockchain');
 const Block = require('./Block');
 const MD5Hash = require('./MD5Hash');
 const TransactionCoinbase = require('./TransactionCoinbase');
+const config = require('./Config');
 
 class Node {
   constructor(openBlock = [], blocks = [], blockchain) {
     this.openBlock = openBlock;
     this.blocks = blocks;
     this.blockchain = Blockchain.getInstance();
+    this.connectedNodes = [];
   }
 
   addTransaction(transaction) {
@@ -22,14 +24,19 @@ class Node {
 
       if (transaction instanceof TransactionCoinbase) {
         this.openBlock[0].transactions.push(transaction);
-      };     
+      };
     } else {
       //si no agarra el ultimo bloque
       var lastBlock = this.openBlock[this.openBlock.length - 1];
       if (lastBlock.transactions.length < 10) {
-        lastBlock.transactions.push(transaction);
+        //validamos transaccion
+        if (this.isValidTransaction(transaction)) {
+          lastBlock.transactions.push(transaction);
+        } else {
+          console.log('Transacción no válida. No se agregó al bloque abierto.');
+        }
       } else {
-        
+
         //si ya tiene las 10 transactions se cierra
         lastBlock.closeBlock();
 
@@ -50,46 +57,57 @@ class Node {
 
   addCompositeTransaction(compositeTransaction) {
     //to do
-    }
+  }
 
   hashCalculation(value, hash) {
-    if (hash.isInstanceOf(MD5Hash)){
+    if (hash.isInstanceOf(MD5Hash)) {
       return hash.hash(value);
     }
-    else if (hash.isInstanceOf(SHA256Hash)){
+    else if (hash.isInstanceOf(SHA256Hash)) {
       return hash.hash(value);
     }
   }
-    
+
 
   checkTransactionIntegrity(transaction) {
     return transaction.hash === this.computeTransactionHash(transaction);
   }
 
-  verifyHashNode(){
+  verifyHashNode() {
     //to do
 
   }
 
-  createNewBlock(previousHash = ''){
+  createNewBlock(previousHash = '') {
     this.openBlock.push(new Block(Date.now(), [], previousHash));
   }
 
-  createTransaction(type, uuid, inAddress, outAddress, encriptionForm, token = ''){
+  createTransaction(type, uuid, inAddress, outAddress, encriptionForm, token = '') {
     if (type === 'coinbase') {
       return new TransactionCoinbase(token, uuid, inAddress, outAddress, encriptionForm, this);
     }
     else if (type === 'composite') {
-      return new TransactionComposite(level,uuid, inAddress, outAddress, encriptionForm, this);
+      return new TransactionComposite(level, uuid, inAddress, outAddress, encriptionForm, this);
     }
     else {
       return new TransactionNormal(txIn, uuid, inAddress, outAddress, encriptionForm, this);
     }
   }
 
-  broadcast(block){
+  broadcast(block) {
     this.blockchain.addBlock(block);
   }
+
+  addNode(node) {
+    this.connectedNodes.push(node);
+  }
+
+  // Método para verificar la validez de una transacción
+  isValidTransaction(transaction) {
+    const hash = config.SHA256.hex(transaction.getData());;
+    return hash === transaction.hash;
+  }
+
 }
 
 module.exports = Node;
