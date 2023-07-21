@@ -32,6 +32,8 @@ class Node {
         //validamos transaccion
         if (this.isValidTransaction(transaction)) {
           lastBlock.transactions.push(transaction);
+          console.log('Transacción guardada en el bloque abierto.');
+
         } else {
           console.log('Transacción no válida. No se agregó al bloque abierto.');
         }
@@ -39,6 +41,7 @@ class Node {
 
         //si ya tiene las 10 transactions se cierra
         lastBlock.closeBlock();
+        console.log('Bloque con 10 transacciones, se cierra');
 
         //se agrega el bloque a la blockchain
         this.broadcast(lastBlock);
@@ -104,7 +107,7 @@ class Node {
 
   // Método para verificar la validez de una transacción
   isValidTransaction(transaction) {
-    const hash = config.SHA256.hex(transaction.getData());;
+    const hash = config.hashDefault.generateHash(transaction.getData());
     return hash === transaction.hash;
   }
 

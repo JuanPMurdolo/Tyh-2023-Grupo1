@@ -18,22 +18,22 @@ describe('Hash', () => {
   });
 });
 
-  test('debe establecer la estrategia hash', () => {
-    const md5Strategy = new MD5Hash();
-    const newHashStrategy = new SHA256Hash();
-    const transactionSimple = new TransactionSimple('tx','inAddress', 'outAddress', md5Strategy, 'node');
-    transactionSimple.setHash(newHashStrategy);
-    expect(transactionSimple.hash).toBe(newHashStrategy);
-  });
+test('debe establecer la estrategia hash', () => {
+  const md5Strategy = new MD5Hash();
+  const newHashStrategy = new SHA256Hash();
+  const transactionSimple = new TransactionSimple('tx', 'inAddress', 'outAddress', md5Strategy, 'node');
+  transactionSimple.setHash(newHashStrategy);
+  expect(transactionSimple.hashStrategy).toBe(newHashStrategy);
+});
 
-  test('debe dar error si no se establece una estrategia hash', () => {
-    const md5Strategy = new MD5Hash();
-    const transactionSimple = new TransactionSimple('tx','inAddress', 'outAddress', md5Strategy, 'node');
+test('debe dar error si no se establece una estrategia hash', () => {
+  const md5Strategy = new MD5Hash();
+  const transactionSimple = new TransactionSimple('tx', 'inAddress', 'outAddress', md5Strategy, 'node');
 
-    transactionSimple.setHash(null);
-    expect(() => transactionSimple.calculateHash()).toThrow('No se ha configurado una estrategia de hash');
-  });
-  
+  transactionSimple.setHash(null);
+  expect(() => transactionSimple.calculateHash()).toThrow('No se ha configurado una estrategia de hash');
+});
+
 describe('MD5Hash', () => {
   test('El método generateHash() debe devolver el hash MD5 correcto', () => {
     const md5Strategy = new MD5Hash();
@@ -53,7 +53,7 @@ describe('SHA256Hash', () => {
 describe('TransactionSimple', () => {
   test('El método calculateHash() debe devolver el hash correcto utilizando la estrategia especificada', () => {
     const md5Strategy = new MD5Hash();
-    const transactionSimple = new TransactionSimple('tx','inAddress', 'outAddress', md5Strategy, 'node');
+    const transactionSimple = new TransactionSimple('tx', 'inAddress', 'outAddress', md5Strategy, 'node');
 
     const hash = transactionSimple.calculateHash();
     expect(hash).toEqual('fcb9b5a3c28ed0ecf440f8126a327639');
@@ -62,7 +62,7 @@ describe('TransactionSimple', () => {
   test('el metodo setHash() debe cambiar la estrategia hash', () => {
     const md5Strategy = new MD5Hash();
     const sha256Strategy = new SHA256Hash();
-    const transactionSimple = new TransactionSimple('tx','inAddress', 'outAddress', md5Strategy, 'node');
+    const transactionSimple = new TransactionSimple('tx', 'inAddress', 'outAddress', md5Strategy, 'node');
 
     // Calcumamos hash con MD5
     let hash = transactionSimple.calculateHash();

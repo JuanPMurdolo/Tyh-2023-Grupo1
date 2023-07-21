@@ -6,11 +6,12 @@ const SHA256 = require('./SHA256');
 class Transaction {
   constructor(inAddress, outAddress, hashStrategy, node) {
     this.node = node;
+    this.status = 'pending';
     this.uuid = this.generateTransactionId();
     this.inAddress = inAddress;
     this.outAddress = outAddress;
-    this.hash = hashStrategy;
-    this.status = 'pending';
+    this.hashStrategy = hashStrategy;
+    this.hash = this.calculateHash();
   }
 
   generateTransactionId() {
@@ -22,14 +23,14 @@ class Transaction {
   }
 
   setHash(hashStrategy) {
-    this.hash = hashStrategy;
+    this.hashStrategy = hashStrategy;
   }
 
   calculateHash() {
-    if (!this.hash) {
+    if (!this.hashStrategy) {
       throw new Error('No se ha configurado una estrategia de hash');
     }
-    return this.hash.generateHash(`${this.node}${this.outAddress}${this.inAddress}${this.status}`);
+    return this.hashStrategy.generateHash(this.getData());
   }
 
   isComposite() { }

@@ -1,7 +1,7 @@
 
 class Blockchain {
   constructor() {
-    this.chain = [];
+    this.blocks = [];
   }
 
   static getInstance() {
@@ -12,7 +12,7 @@ class Blockchain {
   }
 
   addBlock(block) {
-    this.chain.push(block);
+    this.blocks.push(block);
   }
 }
 

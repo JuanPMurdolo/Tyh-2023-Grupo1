@@ -33,7 +33,7 @@ describe('TransactionComposite', () => {
   let node;
 
   beforeEach(() => {
-    hashStrategy = {};
+    hashStrategy = new SHA256Hash();
     node = 'node';
     transactionComposite = new TransactionComposite(0, 'inAddress', 'outAddress', hashStrategy, node);
   });
@@ -84,7 +84,7 @@ describe('TransactionSimple', () => {
 
   beforeEach(() => {
     txIn = {};
-    hashStrategy = {};
+    hashStrategy = new SHA256Hash();
     node = 'node';
     transactionSimple = new TransactionSimple(txIn, 'inAddress', 'outAddress', hashStrategy, node);
   });
