@@ -1,18 +1,22 @@
 const Transaction = require("./Transaction");
 
 class TransactionCoinbase extends Transaction {
-    constructor(token, inAddress, outAddress, hashStrategy, node) {
+    constructor(inAddress, outAddress, hashStrategy, node) {
         super(inAddress, outAddress, hashStrategy, node);
-        this.token = this.generateTokenId(token);
-        this.toString();
+        this.token = this.generateTokenId(this.getToken());
+        //this.toString();
     }
 
     generateTokenId(token) {
-        return token+'-'+this.uuid 
+        return token + '-' + this.generateUUID()
     }
 
     toString() {
         return JSON.stringify(this);
+    }
+
+    getToken() {
+        return 'TKN';
     }
 
 }

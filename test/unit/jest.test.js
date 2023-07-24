@@ -8,7 +8,7 @@ const SHA256Hash = require('../../src/models/SHA256');
 const MD5Hash = require('../../src/models/MD5Hash');
 
 //Crear una transaccion coinbase
-const coinbase = new TransactionCoinbase('token', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
+const coinbase = new TransactionCoinbase('inAddress', 'outAddress', new SHA256Hash(), 'node');
 const uid = coinbase.uuid;
 test('token es NombreToken+UUID', () => {
     expect(coinbase.uuid).toBe(uid);

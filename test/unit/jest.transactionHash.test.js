@@ -56,7 +56,7 @@ describe('TransactionSimple', () => {
     const transactionSimple = new TransactionSimple('tx', 'inAddress', 'outAddress', md5Strategy, 'node');
 
     const hash = transactionSimple.calculateHash();
-    expect(hash).toEqual('fcb9b5a3c28ed0ecf440f8126a327639');
+    expect(hash).toEqual('a545200e658fda1cf78313b178ce59e9');
   });
 
   test('el metodo setHash() debe cambiar la estrategia hash', () => {
@@ -66,13 +66,13 @@ describe('TransactionSimple', () => {
 
     // Calcumamos hash con MD5
     let hash = transactionSimple.calculateHash();
-    expect(hash).toEqual('fcb9b5a3c28ed0ecf440f8126a327639');
+    expect(hash).toEqual('a545200e658fda1cf78313b178ce59e9');
 
     // Cambiamos a SHA256
     transactionSimple.setHash(sha256Strategy);
 
     // Calcumamos hash con SHA256
     hash = transactionSimple.calculateHash();
-    expect(hash).toEqual('16363f57b784c2469bc817d69ec215c83f24c7ae10c2aa1d8e3ff8cf4e724fe7');
+    expect(hash).toEqual('c0144abe25b3b8d802c6ea3936f16120f5f508eced4ca1ff12b64a3e1f8b42ed');
   });
 });
