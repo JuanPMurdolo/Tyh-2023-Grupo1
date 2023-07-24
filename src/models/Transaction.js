@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const MD5Hash = require('./MD5Hash');
 const SHA256 = require('./SHA256');
+const config = require('./Config');
 
 
 class Transaction {
@@ -40,7 +41,17 @@ class Transaction {
   }
 
   getData() {
-    return `${this.node}${this.outAddress}${this.inAddress}${this.status}`;
+    return `${this.node}${this.outAddress}${this.inAddress}`;
+  }
+
+  // Método para verificar la validez de una transacción
+  isValid() {
+    const hash = this.calculateHash(this.getData());
+    return hash === this.hash;
+  }
+
+  toString() {
+    return JSON.stringify(this);
   }
 
 }
