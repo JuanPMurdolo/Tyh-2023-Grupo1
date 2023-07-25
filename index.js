@@ -39,37 +39,10 @@ node1.addNode(node2);
 node2.addNode(node1);
 
 // agregamos las transacciones al node1
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-node1.addTransaction(new transactionSimple('tx', 'inAddress', 'outAddress', sha256Strategy, 'node'));
-
+for (let i = 0; i < 25; i++) {
+    var transaction1 = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
+    node1.addTransaction(transaction1);
+}
 // chequeamos que ambos nodos tengan la misma blockchain
 //console.log('blockchain node 1: ' + node1.blockchain.blocks);
 

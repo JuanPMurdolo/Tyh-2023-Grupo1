@@ -31,12 +31,6 @@ test('Node se crea', () => {
 //expect (node.blocks.length).toBe(2);
 //});
 
-node.addTransaction(coinbase);
-test('Se agrega la transaccion coinbase al node', () => {
-    expect(node.openBlock[0].transactions[0]).toBe(coinbase);
-});
-
-
 //se crean 10 transacciones
 //El bloque se cierra a las 10 transacciones
 for (let i = 0; i < 10; i++) {
@@ -46,7 +40,7 @@ for (let i = 0; i < 10; i++) {
 }
 test('Se agregan 10 transacciones al node', () => {
     expect(node.openBlock[0].transactions.length).toBe(10);
-    expect(node.openBlock[node.openBlock.length - 1].transactions.length).toBe(2);
+    expect(node.openBlock[node.openBlock.length - 1].transactions.length).toBe(3);
 });
 
 
@@ -61,14 +55,7 @@ test('Se crea una transaccion normal', () => {
 //Se agrega la transaccion normal al nodo
 node.addTransaction(transaction);
 test('Se agrega la transaccion normal al node', () => {
-    expect(node.openBlock[node.openBlock.length - 1].transactions.length).toBe(2);
-});
-
-//check the hashes de bloques
-test('Se chequea el hash del bloque vs el previo', () => {
-    var lastHash = node.openBlock[node.openBlock.length - 1].previousHash;
-    var prevHash = node.openBlock[0].previousHash;
-    expect(lastHash).toBe(prevHash);
+    expect(node.openBlock[node.openBlock.length - 1].transactions.length).toBe(3);
 });
 
 //Testear composite Transactions

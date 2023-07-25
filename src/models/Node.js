@@ -5,9 +5,9 @@ const TransactionCoinbase = require('./TransactionCoinbase');
 const config = require('./Config');
 
 class Node {
-  constructor(openBlock = [], blocks = [], blockchain) {
+  constructor() {
     this.openBlock = [this.createGenesisBlock()];
-    this.blocks = blocks;
+    this.blocks = [];
     this.blockchain = Blockchain.getInstance();
     this.connectedNodes = [];
     this.pendingTransactions = [];
@@ -15,7 +15,7 @@ class Node {
   }
 
   createGenesisBlock() {
-    return new Block(Date.now(), [], "0");
+    return new Block(Date.now(), [], '0');
   }
 
   addTransaction(transaction) {
@@ -52,46 +52,12 @@ class Node {
     }
   }
 
-  addCompositeTransaction(compositeTransaction) {
-    //to do
-  }
-
-  hashCalculation(value, hash) {
-    if (hash.isInstanceOf(MD5Hash)) {
-      return hash.hash(value);
-    }
-    else if (hash.isInstanceOf(SHA256Hash)) {
-      return hash.hash(value);
-    }
-  }
-
   getLatestBlock() {
     return this.openBlock[this.openBlock.length - 1];
   }
 
-  checkTransactionIntegrity(transaction) {
-    return transaction.hash === this.computeTransactionHash(transaction);
-  }
-
-  verifyHashNode() {
-    //to do
-
-  }
-
   createNewBlock() {
     this.openBlock.push(new Block(Date.now(), [], this.getLatestBlock().hash));
-  }
-
-  createTransaction(type, uuid, inAddress, outAddress, encriptionForm, token = '') {
-    if (type === 'coinbase') {
-      return new TransactionCoinbase(token, uuid, inAddress, outAddress, encriptionForm, this);
-    }
-    else if (type === 'composite') {
-      return new TransactionComposite(level, uuid, inAddress, outAddress, encriptionForm, this);
-    }
-    else {
-      return new TransactionNormal(txIn, uuid, inAddress, outAddress, encriptionForm, this);
-    }
   }
 
   broadcast(block) {
