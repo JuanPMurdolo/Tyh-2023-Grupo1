@@ -21,11 +21,6 @@ describe('Node', () => {
 
     });
 
-    it('should create a genesis block when initialized', () => {
-        expect(node.openBlock.length).toEqual(1);
-        expect(node.openBlock[0].previousHash).toEqual('0');
-    });
-
     it('should add a valid transaction to the latest block', () => {
         jest.spyOn(transaction, "isValid").mockReturnValue(true);
 

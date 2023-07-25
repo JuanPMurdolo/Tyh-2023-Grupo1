@@ -39,7 +39,7 @@ node1.addNode(node2);
 node2.addNode(node1);
 
 // agregamos las transacciones al node1
-for (let i = 0; i < 25; i++) {
+for (let i = 0; i < 30; i++) {
     var transaction1 = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
     node1.addTransaction(transaction1);
 }
@@ -56,16 +56,15 @@ node2.blockchain.blocks.forEach(function (element) {
     console.log(element);
 }); */
 
-console.log(node1.blockchain.blocks[0].toString());
-console.log(node1.blockchain.blocks[0].transactions[0].isValid());
-console.log(node1.blockchain.blocks[0].hasValidTransactions());
-
+console.log('Transaccion valida?:' + node1.blockchain.blocks[0].transactions[0].isValid());
+console.log('Bloque valido?:' + node1.blockchain.blocks[0].hasValidTransactions());
 console.log('Mi Blockchain es valida? ' + node1.isBlockchainValid());
+
 console.log('modifico alguna transaccion: ' + node1.blockchain.blocks[0].transactions[0].inAddress);
 console.log(node1.blockchain.blocks[0].transactions[0].inAddress = 'cambio en el historial clinico');
-console.log(node1.blockchain.blocks[0].transactions[0].inAddress);
-console.log(node1.blockchain.blocks[0].transactions[0]);
-console.log('Transaccion invalida:' + node1.blockchain.blocks[0].transactions[0].isValid());
-console.log('Bloque invalido:' + node1.blockchain.blocks[0].hasValidTransactions());
+//console.log(node1.blockchain.blocks[0].transactions[0].inAddress);
+//console.log(node1.blockchain.blocks[0].transactions[0]);
 
+console.log('Transaccion valida?:' + node1.blockchain.blocks[0].transactions[0].isValid());
+console.log('Bloque valido?:' + node1.blockchain.blocks[0].hasValidTransactions());
 console.log('Mi Blockchain es valida? ' + node1.isBlockchainValid()); 

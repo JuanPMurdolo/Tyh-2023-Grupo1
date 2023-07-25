@@ -53,26 +53,87 @@ describe('Node', () => {
     });
 
     test('should validate the blockchain', () => {
-
-        const blockchain = Blockchain.getInstance();
-        const block1 = new Block(Date.now(), [], "0");
-        const block2 = new Block(Date.now(), [], block1.hash);
-        const transaction1 = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
-        const transaction2 = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
-        block2.transactions = [transaction1, transaction2];
-        blockchain.blocks = [block1, block2];
-
-        expect(node.isBlockchainValid()).toBe(true);
-    });
-
-    test('should validate the blockchain', () => {
         const node = new Node();
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 30; i++) {
             var transaction = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
             node.addTransaction(transaction);
         }
-        console.log(node.blockchain.toString());
         expect(node.isBlockchainValid()).toBe(true);
+    });
+
+    test('debe devolver true si el bloque tiene todas sus transacciones validas', () => {
+        const node = new Node();
+
+        for (let i = 0; i < 30; i++) {
+            var transaction = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
+            node.addTransaction(transaction);
+        }
+        expect(node.blockchain.blocks[0].hasValidTransactions()).toBe(true);
+    });
+
+    describe('Node', () => {
+        let node;
+        let transaction;
+        let sha256Strategy;
+
+        beforeEach(() => {
+            node = new Node();
+            sha256Strategy = new SHA256Hash();
+            transaction = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
+        });
+
+        it('debe agregar una transacción válida al último bloque', () => {
+            node.addTransaction(transaction);
+            expect(node.getLatestBlock().transactions.length).toBe(2);
+            expect(node.getLatestBlock().transactions[1]).toBe(transaction);
+        });
+
+        it('no debe agregar una transacción no válida al último bloque', () => {
+            transaction.inAddress = 'invalidAddress';
+            node.addTransaction(transaction);
+            expect(node.getLatestBlock().transactions.length).toBe(1);
+        });
+
+        it('should close the latest block and create a new one if it has reached the maximum number of transactions', () => {
+            for (let i = 0; i < 10; i++) {
+                const transaction = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
+                node.addTransaction(transaction);
+            }
+            expect(node.openBlock.length).toBe(2);
+            expect(node.getLatestBlock().transactions.length).toBe(2);
+        });
+
+        it('should broadcast a closed block to the blockchain', () => {
+            for (let i = 0; i < 10; i++) {
+                const transaction = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
+                node.addTransaction(transaction);
+            }
+            expect(node.blockchain.blocks.length).toBe(9);
+        });
+
+        it('should add a connected node', () => {
+            const newNode = new Node();
+            node.addNode(newNode);
+            expect(node.connectedNodes.length).toBe(1);
+            expect(node.connectedNodes[0]).toBe(newNode);
+        });
+
+        it('should return false if the genesis block has invalid transactions', () => {
+            node.blockchain.blocks[0].transactions[0].amount = 1000000;
+            expect(node.isBlockchainValid()).toBe(false);
+        });
+
+        it('should return false if any block has invalid transactions', () => {
+            node.blockchain.addBlock(new Block(Date.now(), [], 'previusHash'));
+            node.blockchain.blocks[1].transactions[0].timestamp = 1384654;
+            expect(node.isBlockchainValid()).toBe(false);
+        });
+
+        it('should return false if any block has an incorrect hash', () => {
+            node.blockchain.addBlock(new Block(Date.now(), [], 'previusHash'));
+            node.blockchain.blocks[1].hash = 'incorrectHash';
+            expect(node.isBlockchainValid()).toBe(false);
+        });
     });
 });
