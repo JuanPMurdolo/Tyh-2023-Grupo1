@@ -117,72 +117,46 @@ describe('Node', () => {
     });
 
 
-    describe('isBlockchainValid', () => {
-        test('should return true if the blockchain is valid', () => {
-            // Crear un objeto de ejemplo para la blockchain
-            const blockchain = {
-                blocks: [
-                    { hash: 'hash1', previousHash: null, hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash1') },
-                    { hash: 'hash2', previousHash: 'hash1', hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash2') },
-                    { hash: 'hash3', previousHash: 'hash2', hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash3') },
-                ]
-            };
+    test('debería devolver true si la Blockchain es válida', () => {
+        const blockchain = {
+            blocks: [
+                { hash: 'hash1', previousHash: null, hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash1') },
+                { hash: 'hash2', previousHash: 'hash1', hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash2') },
+                { hash: 'hash3', previousHash: 'hash2', hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash3') },
+            ]
+        };
 
-            // Crear un objeto de ejemplo de la clase Block
-            const node = new Node();
+        const node = new Node();
+        node.blockchain = blockchain;
+        const result = node.isBlockchainValid();
+        expect(result).toBe(true);
+    });
 
-            // Asignar la blockchain de ejemplo al objeto block
-            node.blockchain = blockchain;
+    test('debe devolver false si un bloque tiene transacciones no válidas', () => {
+        const blockchain = {
+            blocks: [
+                { hash: 'hash1', previousHash: null, hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash1') },
+                { hash: 'hash2', previousHash: 'hash1', hasValidTransactions: jest.fn().mockReturnValue(false), calculateHash: jest.fn().mockReturnValue('hash2') },
+            ]
+        };
 
-            // Ejecutar la función isBlockchainValid()
-            const result = node.isBlockchainValid();
+        const node = new Node();
+        node.blockchain = blockchain;
+        const result = node.isBlockchainValid();
+        expect(result).toBe(false);
+    });
 
-            // Verificar que el resultado sea true
-            expect(result).toBe(true);
-        });
+    test('debe devolver falso si un bloque tiene un hash incorrecto o hash anterior', () => {
+        const blockchain = {
+            blocks: [
+                { hash: 'hash1', previousHash: null, hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash1') },
+                { hash: 'hash2', previousHash: 'incorrectHash', hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash2') },
+            ]
+        };
 
-        test('should return false if a block has invalid transactions', () => {
-            // Crear un objeto de ejemplo para la blockchain
-            const blockchain = {
-                blocks: [
-                    { hash: 'hash1', previousHash: null, hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash1') },
-                    { hash: 'hash2', previousHash: 'hash1', hasValidTransactions: jest.fn().mockReturnValue(false), calculateHash: jest.fn().mockReturnValue('hash2') },
-                ]
-            };
-
-            // Crear un objeto de ejemplo de la clase Block
-            const node = new Node();
-
-            // Asignar la blockchain de ejemplo al objeto block
-            node.blockchain = blockchain;
-
-            // Ejecutar la función isBlockchainValid()
-            const result = node.isBlockchainValid();
-
-            // Verificar que el resultado sea false
-            expect(result).toBe(false);
-        });
-
-        test('should return false if a block has an incorrect hash or previousHash', () => {
-            // Crear un objeto de ejemplo para la blockchain
-            const blockchain = {
-                blocks: [
-                    { hash: 'hash1', previousHash: null, hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash1') },
-                    { hash: 'hash2', previousHash: 'incorrectHash', hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash2') },
-                ]
-            };
-
-            // Crear un objeto de ejemplo de la clase Block
-            const node = new Node();
-
-            // Asignar la blockchain de ejemplo al objeto block
-            node.blockchain = blockchain;
-
-            // Ejecutar la función isBlockchainValid()
-            const result = node.isBlockchainValid();
-
-            // Verificar que el resultado sea false
-            expect(result).toBe(false);
-        });
+        const node = new Node();
+        node.blockchain = blockchain;
+        const result = node.isBlockchainValid();
+        expect(result).toBe(false);
     });
 });

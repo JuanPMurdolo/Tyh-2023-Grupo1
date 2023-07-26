@@ -12,24 +12,25 @@ const Config = require('../../src/models/Config');
 describe('Block', () => {
     let block;
     let sha256Strategy;
+    let transaction1;
+    let transaction2;
 
     beforeEach(() => {
         sha256Strategy = new SHA256Hash();
         block = new Block(Date.now(), [],);
+        transaction1 = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
+        transaction2 = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
     });
 
     afterEach(() => {
         jest.clearAllMocks();
     });
 
-    test('should return the string representation of the block', () => {
+    test('debe devolver la cadena JSON del bloque', () => {
         expect(block.toString()).toBe(JSON.stringify(block));
     });
 
-    test('should check if all transactions in the block are valid', () => {
-        const transaction1 = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
-        const transaction2 = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
-
+    test('debe verificar si todas las transacciones en el bloque son válidas', () => {
         jest.spyOn(transaction1, "isValid").mockReturnValue(true);
         jest.spyOn(transaction2, "isValid").mockReturnValue(false);
 
@@ -40,7 +41,7 @@ describe('Block', () => {
         expect(transaction2.isValid).toHaveBeenCalledTimes(1);
     });
 
-    test('should add a transaction to the block', () => {
+    test('debe agregar una transacción al bloque', () => {
         const transaction = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
         jest.spyOn(transaction, "isValid").mockReturnValue(true);
 
@@ -50,7 +51,7 @@ describe('Block', () => {
         expect(transaction.isValid).toHaveBeenCalledTimes(1);
     });
 
-    test('should not add an invalid transaction to the block', () => {
+    test('no debe agregar una transacción no válida al bloque', () => {
         const transaction = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
         jest.spyOn(transaction, "isValid").mockReturnValue(false);
 
@@ -64,10 +65,7 @@ describe('Block', () => {
         expect(console.log).toHaveBeenCalledWith(expectedLogMessage);
     });
 
-    test('should return the concatenated hash of all transactions in the block', () => {
-        const transaction1 = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
-        const transaction2 = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
-
+    test('debe devolver el hash concatenado de todas las transacciones en el bloque', () => {
         //seteamos dos strings para probar la concatenacion
         transaction1.hash = 'hash1';
         transaction2.hash = 'hash2';
@@ -76,115 +74,95 @@ describe('Block', () => {
         expect(block.getHashesTransactions()).toBe('hash1hash2');
     });
 
-    describe('Block', () => {
-        test('should return the correct hash value', () => {
-            // Crear un objeto block con valores de ejemplo
-            const block = new Block('2021-10-01', [], 'previousHash123');
+    test('debe devolver el valor hash correcto', () => {
+        const block = new Block('2021-10-01', [], 'previousHash123');
 
-            // Mockear la función de generación de hash
-            Config.hashDefault.generateHash = jest.fn().mockReturnValue('mockedHash');
+        // Mockear la función de generación de hash
+        Config.hashDefault.generateHash = jest.fn().mockReturnValue('mockedHash');
+        const result = block.calculateHash();
 
-            // Ejecutar la función calculateHash()
-            const result = block.calculateHash();
+        // Verificar que la función de generación de hash haya sido llamada con los datos correctos
+        expect(Config.hashDefault.generateHash).toHaveBeenCalledWith(`previousHash1232021-10-01${block.getHashesTransactions()}`);
 
-            // Verificar que la función de generación de hash haya sido llamada con los datos correctos
-            expect(Config.hashDefault.generateHash).toHaveBeenCalledWith(`previousHash1232021-10-01${block.getHashesTransactions()}`);
-
-            // Verificar que el resultado sea el valor de hash retornado por la función de generación de hash
-            expect(result).toBe('mockedHash');
-        });
+        expect(result).toBe('mockedHash');
     });
 
-    describe('Block', () => {
-        test('should close the block correctly', () => {
-            // Crear transacciones ficticias
-            const transaction1 = {
-                status: 'pending',
-                closeTransaction: jest.fn(),
-                hash: 'hash1'
-            };
-            const transaction2 = {
-                status: 'closed',
-                closeTransaction: jest.fn(),
-                hash: 'hash2'
-            };
+    test('debe cerrar el bloque correctamente', () => {
+        // Crear transacciones ficticias
+        const transaction1 = { status: 'pending', closeTransaction: jest.fn(), hash: 'hash1' };
+        const transaction2 = { status: 'closed', closeTransaction: jest.fn(), hash: 'hash2' };
 
-            // Crear un objeto block con transacciones ficticias
-            const block = new Block('2021-10-01', [transaction1, transaction2], 'previousHash123');
+        // Crear un objeto block con transacciones ficticias
+        const block = new Block('2021-10-01', [transaction1, transaction2], 'previousHash123');
 
-            // Mockear la función calculateHash()
-            block.calculateHash = jest.fn().mockReturnValue('mockedHash');
+        // Mockear la función calculateHash()
+        block.calculateHash = jest.fn().mockReturnValue('mockedHash');
 
-            // Ejecutar la función closeBlock()
-            block.closeBlock();
+        // Ejecutar la función closeBlock()
+        block.closeBlock();
 
-            // Verificar que la función closeTransaction() haya sido llamada solo para la transacción pendiente
-            expect(transaction1.closeTransaction).toHaveBeenCalled();
-            expect(transaction2.closeTransaction).not.toHaveBeenCalled();
+        // Verificar que la función closeTransaction() haya sido llamada solo para la transacción pendiente
+        expect(transaction1.closeTransaction).toHaveBeenCalled();
+        expect(transaction2.closeTransaction).not.toHaveBeenCalled();
 
-            // Verificar que el hash del bloque haya sido actualizado correctamente
-            expect(block.hash).toBe('mockedHash');
+        // Verificar que el hash del bloque haya sido actualizado correctamente
+        expect(block.hash).toBe('mockedHash');
 
-            // Verificar que el estado del bloque sea 'closed'
-            expect(block.status).toBe('closed');
-        });
+        // Verificar que el estado del bloque sea 'closed'
+        expect(block.status).toBe('closed');
     });
 
-    describe('addPreviousHash', () => {
-        test('should return the previous hash of the last closed block', () => {
-            // Crear un objeto de ejemplo para la blockchain
-            const blockchain = {
-                blocks: [
-                    { hash: 'hash1', status: 'closed' },
-                    { hash: 'hash2', status: 'closed' },
-                    { hash: 'hash3', status: 'open' },
-                ]
-            };
+    test('debe devolver el hash anterior del último bloque cerrado', () => {
+        // Crear un objeto de ejemplo para la blockchain
+        const blockchain = {
+            blocks: [
+                { hash: 'hash1', status: 'closed' },
+                { hash: 'hash2', status: 'closed' },
+                { hash: 'hash3', status: 'open' },
+            ]
+        };
 
-            // Crear un objeto node de ejemplo
-            const node = {
-                blockchain: blockchain
-            };
+        // Crear un objeto node de ejemplo
+        const node = {
+            blockchain: blockchain
+        };
 
-            // Crear un objeto de ejemplo de la clase Block
-            const block = new Block();
+        // Crear un objeto de ejemplo de la clase Block
+        const block = new Block();
 
-            // Mockear la función calculateHash() del objeto block
-            block.calculateHash = jest.fn().mockReturnValue('mockedHash');
+        // Mockear la función calculateHash() del objeto block
+        block.calculateHash = jest.fn().mockReturnValue('mockedHash');
 
-            // Ejecutar la función addPreviousHash()
-            const result = block.addPreviousHash(node);
+        // Ejecutar la función addPreviousHash()
+        const result = block.addPreviousHash(node);
 
-            // Verificar que el resultado sea el hash del último bloque cerrado de la blockchain
-            expect(result).toBe('hash3');
-        });
+        // Verificar que el resultado sea el hash del último bloque cerrado de la blockchain
+        expect(result).toBe('hash3');
+    });
 
-        test('should return an empty string when previous hash is undefined or null', () => {
-            // Crear un objeto de ejemplo para la blockchain
-            const blockchain = {
-                blocks: [
-                    { hash: 'hash1', status: 'open' },
-                    { hash: undefined, status: 'closed' },
-                ]
-            };
+    test('debe devolver una cadena vacía cuando el hash anterior no está definido o es nulo', () => {
+        // Crear un objeto de ejemplo para la blockchain
+        const blockchain = {
+            blocks: [
+                { hash: 'hash1', status: 'open' },
+                { hash: undefined, status: 'closed' },
+            ]
+        };
 
-            // Crear un objeto node de ejemplo
-            const node = {
-                blockchain: blockchain
-            };
+        const node = {
+            blockchain: blockchain
+        };
 
-            // Crear un objeto de ejemplo de la clase Block
-            const block = new Block();
+        const block = new Block();
 
-            // Mockear la función calculateHash() del objeto block
-            block.calculateHash = jest.fn().mockReturnValue('mockedHash');
+        // Mockear la función calculateHash() del objeto block
+        block.calculateHash = jest.fn().mockReturnValue('mockedHash');
 
-            // Ejecutar la función addPreviousHash()
-            const result = block.addPreviousHash(node);
+        // Ejecutar la función addPreviousHash()
+        const result = block.addPreviousHash(node);
 
-            // Verificar que el resultado sea una cadena vacía
-            expect(result).toBe('');
-        });
+        // Verificar que el resultado sea una cadena vacía
+        expect(result).toBe('');
     });
 
 });
