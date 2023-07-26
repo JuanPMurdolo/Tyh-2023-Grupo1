@@ -43,18 +43,6 @@ for (let i = 0; i < 30; i++) {
     var transaction1 = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
     node1.addTransaction(transaction1);
 }
-// chequeamos que ambos nodos tengan la misma blockchain
-//console.log('blockchain node 1: ' + node1.blockchain.blocks);
-
-/* for (let i = 0; i < node1.blockchain.blocks.length; i++) {
-    console.log(node1.blockchain.blocks[i]);
-}
-
-//console.log('blockchain node 2: ' + node2.blockchain.blocks);
-
-node2.blockchain.blocks.forEach(function (element) {
-    console.log(element);
-}); */
 
 console.log('Transaccion valida?:' + node1.blockchain.blocks[0].transactions[0].isValid());
 console.log('Bloque valido?:' + node1.blockchain.blocks[0].hasValidTransactions());
