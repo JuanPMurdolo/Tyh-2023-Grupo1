@@ -1,7 +1,7 @@
 
 class Blockchain {
   constructor() {
-    this.blocks = [];
+    this.nodes = []; //array de nodos
   }
 
   addBlock(block) {
