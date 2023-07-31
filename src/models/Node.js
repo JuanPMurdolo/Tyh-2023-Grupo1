@@ -77,7 +77,7 @@ class Node {
 
       //como entramos al for en i=1, entonces necesitamos validas las transacciones del bloque genesis
       if (!this.blockchain.blocks[0].hasValidTransactions()) {
-        console.log('bloque genesis valid?: ' + this.blockchain.blocks[0].hasValidTransactions());
+        console.log('bloque genesis valido?: ' + this.blockchain.blocks[0].hasValidTransactions());
         return false;
       }
 

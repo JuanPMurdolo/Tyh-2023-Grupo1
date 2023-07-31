@@ -30,26 +30,6 @@ class Block {
     }
   }
 
-  computeBlockHash(block) {
-    //Se confirman todas las transacciones cerradas primero
-    block.transactions.forEach(transaction => {
-      if (transaction.status === 'closed') {
-        //Se agrega el hash de la transaccion al hash del bloque
-        block.hash += transaction.hash;
-      }
-    });
-    //to do
-    block.status = 'closed';
-    //Se calcula el hash final del bloque
-
-    //retornar el hash del bloque
-    return 1;
-  }
-
-  hashFunction(data, hash) {
-
-  }
-
   closeBlock() {
     var hash = 0;
     this.transactions.forEach(transaction => {
@@ -71,7 +51,7 @@ class Block {
   }
 
   getData() {
-    return `${this.previousHash}${this.timestamp}${this.getHashesTransactions()}${this.nonce}`;
+    return `${this.previousHash}${this.timestamp}${this.getHashesTransactions()}`;
   }
 
   hasValidTransactions() {
