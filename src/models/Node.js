@@ -64,10 +64,6 @@ class Node {
     this.blockchain.addBlock(block);
   }
 
-  nodeBroadcast(node) {
-    this.blockchain.receiveBroadcast(node);
-  }
-
   addNode(node) {
     this.connectedNodes.push(node);
   }
