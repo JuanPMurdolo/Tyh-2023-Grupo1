@@ -53,6 +53,12 @@ class Block {
   getData() {
     return `${this.previousHash}${this.timestamp}${this.getHashesTransactions()}`;
   }
+  
+  // Método para verificar la validez de un bloque
+  isValid() {
+    const hash = this.calculateHash(this.getData());
+    return hash === this.hash;
+  }
 
   hasValidTransactions() {
     for (const tx of this.transactions) {

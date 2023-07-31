@@ -5,10 +5,10 @@ const TransactionCoinbase = require('./TransactionCoinbase');
 const config = require('./Config');
 
 class Node {
-  constructor() {
+  constructor(blockchain) {
     this.openBlock = [this.createGenesisBlock()];
     this.blocks = [];
-    this.blockchain = Blockchain.getInstance();
+    this.blockchain = blockchain;
     this.connectedNodes = [];
     this.pendingTransactions = [];
 
@@ -66,6 +66,22 @@ class Node {
 
   addNode(node) {
     this.connectedNodes.push(node);
+  }
+
+  receiveBroadcast(block) {
+    if (this.verifyBlock(block) === true){
+      this.addBlock(block);
+    } else {
+      console.log('Bloque no valido');
+    }
+  }
+  
+  verifyBlock(block) {
+    if (block.isValid() === true){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   isBlockchainValid() {
