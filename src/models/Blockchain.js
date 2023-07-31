@@ -1,11 +1,11 @@
 
 class Blockchain {
   constructor() {
-    this.nodes = []; //array de nodos
+    this.blocks = []; //array de nodos
   }
 
-  receiveBroadcast(node)  {
-    this.nodes.push(node);
+  addBlock(block) {
+    this.blocks.push(block);
   }
 
 }
