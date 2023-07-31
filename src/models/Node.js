@@ -69,7 +69,7 @@ class Node {
   }
 
   receiveBroadcast(block) {
-    if (this.verifyBlock(block) === true){
+    if (this.verifyBlock(block) === true && this.getLatestBlock !== block){
       this.addBlock(block);
     } else {
       console.log('Bloque no valido');
