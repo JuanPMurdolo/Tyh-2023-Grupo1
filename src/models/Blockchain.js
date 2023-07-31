@@ -4,9 +4,10 @@ class Blockchain {
     this.nodes = []; //array de nodos
   }
 
-  addBlock(block) {
-    this.blocks.push(block);
+  receiveBroadcast(node)  {
+    this.nodes.push(node);
   }
+
 }
 
 module.exports = Blockchain;
