@@ -7,7 +7,7 @@ class Blockchain {
 
   addBlock(block) {
     this.blocks.push(block);
-    this.broadcast();
+    this.broadcast(block);
   }
 
   addNode(node) {

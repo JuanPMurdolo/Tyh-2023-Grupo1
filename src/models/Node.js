@@ -81,11 +81,15 @@ class Node {
   }
   
   verifyBlock(block) {
-    if (block?.isValid() === true){
+    if (block.isValid() === true){
       return true;
     } else {
       return false;
     }
+  }
+
+  addBlock(block) {
+    this.blocks.push(block);
   }
 
   isBlockchainValid() {
