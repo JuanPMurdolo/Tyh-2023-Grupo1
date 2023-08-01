@@ -12,7 +12,7 @@ describe('Node', () => {
     let node;
     let sha256Strategy;
     let transaction;
-    let blockchain;
+    let blockchain = new Blockchain();
 
     beforeEach(() => {
         node = new Node(blockchain);
@@ -56,7 +56,8 @@ describe('Node', () => {
 
 
     test('debe conectar un nuevo nodo a otros nodos', () => {
-        const connectedNode = new Node();
+        let blockchain = new Blockchain();
+        const connectedNode = new Node(blockchain);
         node.addNode(connectedNode);
 
         expect(node.connectedNodes.length).toBe(1);
@@ -64,7 +65,8 @@ describe('Node', () => {
     });
 
     test('debe devolver true si el bloque tiene todas sus transacciones validas', () => {
-        const node = new Node();
+        let blockchain = new Blockchain();
+        const node = new Node(blockchain);
 
         for (let i = 0; i < 30; i++) {
             var transaction = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
@@ -127,8 +129,7 @@ describe('Node', () => {
             ]
         };
 
-        const node = new Node();
-        node.blockchain = blockchain;
+        const node = new Node(blockchain);
         const result = node.isBlockchainValid();
         expect(result).toBe(true);
     });
@@ -141,8 +142,7 @@ describe('Node', () => {
             ]
         };
 
-        const node = new Node();
-        node.blockchain = blockchain;
+        const node = new Node(blockchain);
         const result = node.isBlockchainValid();
         expect(result).toBe(false);
     });
@@ -155,8 +155,7 @@ describe('Node', () => {
             ]
         };
 
-        const node = new Node();
-        node.blockchain = blockchain;
+        const node = new Node(blockchain);
         const result = node.isBlockchainValid();
         expect(result).toBe(false);
     });
