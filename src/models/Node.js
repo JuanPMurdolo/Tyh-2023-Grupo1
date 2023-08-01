@@ -65,6 +65,7 @@ class Node {
 
   broadcast(block) {
     this.blockchain.addBlock(block);
+    this.addNodeBlockchain();
   }
 
   addNode(node) {
