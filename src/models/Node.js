@@ -11,11 +11,14 @@ class Node {
     this.blockchain = blockchain;
     this.connectedNodes = [];
     this.pendingTransactions = [];
-
   }
 
   createGenesisBlock() {
     return new Block(Date.now(), [], '0');
+  }
+
+  addNodeBlockchain() {
+    this.blockchain.addNode(this);
   }
 
   addTransaction(transaction) {
@@ -77,7 +80,7 @@ class Node {
   }
   
   verifyBlock(block) {
-    if (block.isValid() === true){
+    if (block?.isValid() === true){
       return true;
     } else {
       return false;

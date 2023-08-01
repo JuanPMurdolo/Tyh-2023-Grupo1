@@ -12,9 +12,10 @@ describe('Node', () => {
     let node;
     let sha256Strategy;
     let transaction;
+    let blockchain;
 
     beforeEach(() => {
-        node = new Node();
+        node = new Node(blockchain);
         sha256Strategy = new SHA256Hash();
         transaction = new TransactionCoinbase('TKN', 'Abraham', sha256Strategy, 'node');
     });

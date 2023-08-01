@@ -21,7 +21,7 @@ test('Blockchain se crea', () => {
 });
 
 //crear un node
-const node = new Node([], [], blockchain);
+const node = new Node(blockchain);
 test('Node se crea', () => {
     expect(node).toBeDefined();
 });

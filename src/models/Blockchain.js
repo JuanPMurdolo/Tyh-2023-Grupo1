@@ -10,13 +10,15 @@ class Blockchain {
     this.broadcast();
   }
 
-  broadcast(block)  {
-    this.nodes.forEach(node => {
-      node.receiveBroacast(block);
-    })
+  addNode(node) {
+    this.nodes.push(node);
   }
 
-
+  broadcast(block)  {
+    this.nodes.forEach(node => {
+      node.receiveBroadcast(block);
+    })
+  }
 
 }
 
