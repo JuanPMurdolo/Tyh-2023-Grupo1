@@ -57,3 +57,12 @@ class Transaction {
 }
 
 module.exports = Transaction;
+
+/*Composite
+Composite es un patrón de diseño estructural que te permite componer objetos 
+en estructuras de árbol y trabajar con esas estructuras como si fueran objetos individuales.
+
+Teniendo la interfaz común Transaction las transacciones se dividen en 3: Composite, Simple y Coinbase, 
+las 3 tiene su conjunto propio de atributos y métodos que las hacen independientes pero todas pueden ser “contenidas” 
+por su clase padre sirviendo como un punto común a la hora de testear, desarrollar y pensar la solución.
+*/
