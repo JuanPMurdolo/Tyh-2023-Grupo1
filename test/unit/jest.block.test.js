@@ -1,5 +1,4 @@
 const Node = require('../../src/models/Node');
-const Blockchain = require('../../src/models/Blockchain');
 const Block = require('../../src/models/Block');
 const MD5Hash = require('../../src/models/MD5Hash');
 const SHA256Hash = require('../../src/models/SHA256');
@@ -51,18 +50,13 @@ describe('Block', () => {
         expect(transaction.isValid).toHaveBeenCalledTimes(1);
     });
 
-    test('no debe agregar una transacción no válida al bloque', () => {
+    test('debe lazar una excepción al agregar una transacción inválida', () => {
         const transaction = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
-        jest.spyOn(transaction, "isValid").mockReturnValue(false);
+        transaction.isValid = jest.fn(() => false);
 
-        console.log = jest.fn(); // Mock console.log
-        const expectedLogMessage = 'Transacción no válida. No se agregó al bloque abierto.';
-
-        block.addTransaction(transaction);
-
-        expect(block.transactions).not.toContain(transaction);
-        expect(transaction.isValid).toHaveBeenCalledTimes(1);
-        expect(console.log).toHaveBeenCalledWith(expectedLogMessage);
+        expect(() => {
+            block.addTransaction(transaction);
+        }).toThrow(Error("Transacción no válida. No se agregó al bloque abierto."));
     });
 
     test('debe devolver el hash concatenado de todas las transacciones en el bloque', () => {
@@ -114,17 +108,15 @@ describe('Block', () => {
 
     test('debe devolver el hash anterior del último bloque cerrado', () => {
         // Crear un objeto de ejemplo para la blockchain
-        const blockchain = {
-            blocks: [
-                { hash: 'hash1', status: 'closed' },
-                { hash: 'hash2', status: 'closed' },
-                { hash: 'hash3', status: 'open' },
-            ]
-        };
+        const blocks = [
+            { hash: 'hash1', status: 'closed' },
+            { hash: 'hash2', status: 'closed' },
+            { hash: 'hash3', status: 'open' },
+        ];
 
         // Crear un objeto node de ejemplo
         const node = {
-            blockchain: blockchain
+            blocks: blocks
         };
 
         // Crear un objeto de ejemplo de la clase Block
@@ -142,15 +134,14 @@ describe('Block', () => {
 
     test('debe devolver una cadena vacía cuando el hash anterior no está definido o es nulo', () => {
         // Crear un objeto de ejemplo para la blockchain
-        const blockchain = {
-            blocks: [
-                { hash: 'hash1', status: 'open' },
-                { hash: undefined, status: 'closed' },
-            ]
-        };
+        const blocks = [
+            { hash: 'hash1', status: 'open' },
+            { hash: undefined, status: 'closed' },
+        ];
+
 
         const node = {
-            blockchain: blockchain
+            blocks: blocks
         };
 
         const block = new Block();

@@ -1,5 +1,4 @@
 const TransactionCoinbase = require('../../src/models/TransactionCoinbase');
-const Blockchain = require('../../src/models/Blockchain');
 const Node = require('../../src/models/Node');
 const TransactionSimple = require('../../src/models/TransactionSimple');
 const Hash = require('../../src/models/Hash');
@@ -14,14 +13,8 @@ test('token es NombreToken+UUID', () => {
     expect(coinbase.uuid).toBe(uid);
 });
 
-//crear un blockchain
-var blockchain = new Blockchain();
-test('Blockchain se crea', () => {
-    expect(blockchain).toBeDefined();
-});
-
 //crear un node
-const node = new Node(blockchain);
+const node = new Node();
 test('Node se crea', () => {
     expect(node).toBeDefined();
 });
@@ -34,19 +27,19 @@ test('Node se crea', () => {
 //se crean 10 transacciones
 //El bloque se cierra a las 10 transacciones
 for (let i = 0; i < 10; i++) {
-    var lastTrans = node.openBlock[node.openBlock.length - 1]?.transactions[node.openBlock.length - 1]?.uuid;
+    var lastTrans = node.blocks[node.blocks.length - 1]?.transactions[node.blocks.length - 1]?.uuid;
     var transaction = new TransactionSimple(lastTrans, 'inAddress', 'outAddress', new SHA256Hash(), node);
     node.addTransaction(transaction);
 }
 test('Se agregan 10 transacciones al node', () => {
-    expect(node.openBlock[0].transactions.length).toBe(10);
-    expect(node.openBlock[node.openBlock.length - 1].transactions.length).toBe(3);
+    expect(node.blocks[0].transactions.length).toBe(10);
+    expect(node.blocks[node.blocks.length - 1].transactions.length).toBe(3);
 });
 
 
 //crear transaccion normal
 // buscar la ultima transaccion que involucra a este token
-var lastTrans = node.openBlock[node.openBlock.length - 1].transactions[node.openBlock.length - 1]?.uuid;
+var lastTrans = node.blocks[node.blocks.length - 1].transactions[node.blocks.length - 1]?.uuid;
 var transaction = new TransactionSimple(lastTrans, 'inAddress', 'outAddress', new SHA256Hash(), node);
 test('Se crea una transaccion normal', () => {
     expect(transaction).toBeDefined();
@@ -55,7 +48,7 @@ test('Se crea una transaccion normal', () => {
 //Se agrega la transaccion normal al nodo
 node.addTransaction(transaction);
 test('Se agrega la transaccion normal al node', () => {
-    expect(node.openBlock[node.openBlock.length - 1].transactions.length).toBe(3);
+    expect(node.blocks[node.blocks.length - 1].transactions.length).toBe(3);
 });
 
 //Testear composite Transactions
