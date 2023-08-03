@@ -1,15 +1,13 @@
-const Blockchain = require('./Blockchain');
 const Block = require('./Block');
 const MD5Hash = require('./MD5Hash');
 const TransactionCoinbase = require('./TransactionCoinbase');
 const config = require('./Config');
 
 class Node {
-  constructor(blockchain) {
-    this.openBlock = [this.createGenesisBlock()];
-    this.blocks = [];
-    this.blockchain = blockchain;
-    this.connectedNodes = [];
+  constructor() {
+    this.blocks = [this.createGenesisBlock()]; // array de bloques abiertos
+    this.blockchain = []; //array de bloques cerrados
+    this.connectedNodes = []; //array de nodos
     this.pendingTransactions = [];
   }
 
@@ -17,15 +15,10 @@ class Node {
     return new Block(Date.now(), [], '0');
   }
 
-  addNodeBlockchain() {
-    this.blockchain.addNode(this);
-  }
-
   addTransaction(transaction) {
 
     if (!transaction.isValid()) {
-      console.log('Transacción no válida. No se agregó al bloque abierto.');
-      return false;
+      throw new Error("Transacción no válida. No se agregó al bloque abierto.");
     }
 
     //si no agarra el ultimo bloque
@@ -56,16 +49,18 @@ class Node {
   }
 
   getLatestBlock() {
-    return this.openBlock[this.openBlock.length - 1];
+    return this.blocks[this.blocks.length - 1];
   }
 
   createNewBlock() {
-    this.openBlock.push(new Block(Date.now(), [], this.getLatestBlock().hash));
+    this.blocks.push(new Block(Date.now(), [], this.getLatestBlock().hash));
   }
 
   broadcast(block) {
-    this.blockchain.addBlock(block);
-    this.addNodeBlockchain();
+    this.blockchain.push(block);
+    this.connectedNodes.forEach(node => {
+      node.receiveBroadcast(block);
+    })
   }
 
   addNode(node) {
@@ -76,16 +71,13 @@ class Node {
     if (this.verifyBlock(block) === true && this.getLatestBlock !== block) {
       this.addBlock(block);
     } else {
-      console.log('Bloque no valido');
+      throw new Error("Bloque no valido");
+
     }
   }
 
   verifyBlock(block) {
-    if (block.isValid() === true) {
-      return true;
-    } else {
-      return false;
-    }
+    return block.isValid() === true
   }
 
   addBlock(block) {
@@ -94,12 +86,12 @@ class Node {
 
   isBlockchainValid() {
 
-    for (let i = 1; i < this.blockchain.blocks.length; i++) {
-      const currentBlock = this.blockchain.blocks[i];
-      const previousBlock = this.blockchain.blocks[i - 1];
+    for (let i = 1; i < this.blocks.length; i++) {
+      const currentBlock = this.blocks[i];
+      const previousBlock = this.blocks[i - 1];
 
       //como entramos al for en i=1, entonces necesitamos validas las transacciones del bloque genesis
-      if (!this.blockchain.blocks[0].hasValidTransactions()) {
+      if (!this.blocks[0].hasValidTransactions()) {
         return false;
       }
 

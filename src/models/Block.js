@@ -21,7 +21,7 @@ class Block {
 
   addPreviousHash(node) {
     //previous hash va a ser el ultimo bloque cerrado de la blockchain
-    const previousHash = node.blockchain.blocks[node.blockchain.blocks.length - 1].hash;
+    const previousHash = node.blocks[node.blocks.length - 1].hash;
     //si previous hash esta vacio o no existe retornamos vacio
     if (previousHash === undefined || previousHash === null) {
       return '';
@@ -53,7 +53,7 @@ class Block {
   getData() {
     return `${this.previousHash}${this.timestamp}${this.getHashesTransactions()}`;
   }
-  
+
   // Método para verificar la validez de un bloque
   isValid() {
     const hash = this.calculateHash(this.getData());
@@ -73,8 +73,7 @@ class Block {
   addTransaction(transaction) {
 
     if (!transaction.isValid()) {
-      console.log('Transacción no válida. No se agregó al bloque abierto.');
-      return false;
+      throw new Error("Transacción no válida. No se agregó al bloque abierto.");
     }
 
     this.transactions.push(transaction);
