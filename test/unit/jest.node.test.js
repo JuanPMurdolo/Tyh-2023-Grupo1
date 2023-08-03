@@ -147,7 +147,7 @@ describe('Node', () => {
         expect(result).toBe(false);
     });
 
-    test('debe devolver falso si un bloque tiene un hash incorrecto o hash anterior', () => {
+    test('debe devolver falso si un bloque tiene un previousHash incorrecto', () => {
         const blockchain = {
             blocks: [
                 { hash: 'hash1', previousHash: null, hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash1') },
