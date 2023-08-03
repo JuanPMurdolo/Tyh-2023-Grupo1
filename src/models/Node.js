@@ -73,15 +73,15 @@ class Node {
   }
 
   receiveBroadcast(block) {
-    if (this.verifyBlock(block) === true && this.getLatestBlock !== block){
+    if (this.verifyBlock(block) === true && this.getLatestBlock !== block) {
       this.addBlock(block);
     } else {
       console.log('Bloque no valido');
     }
   }
-  
+
   verifyBlock(block) {
-    if (block.isValid() === true){
+    if (block.isValid() === true) {
       return true;
     } else {
       return false;
@@ -94,36 +94,25 @@ class Node {
 
   isBlockchainValid() {
 
-    console.log('tamaño blockchain ' + this.blockchain.blocks.length);
     for (let i = 1; i < this.blockchain.blocks.length; i++) {
       const currentBlock = this.blockchain.blocks[i];
       const previousBlock = this.blockchain.blocks[i - 1];
 
       //como entramos al for en i=1, entonces necesitamos validas las transacciones del bloque genesis
       if (!this.blockchain.blocks[0].hasValidTransactions()) {
-        console.log('bloque genesis valido?: ' + this.blockchain.blocks[0].hasValidTransactions());
         return false;
       }
 
       if (!currentBlock.hasValidTransactions()) {
-        console.log('currentBlock.hasValidTransactions: ' + currentBlock.hasValidTransactions());
         return false;
       }
 
       if (currentBlock.hash !== currentBlock.calculateHash()) {
-        console.log('hola: ' + currentBlock.hash);
-
-        console.log('hola calculado: ' + currentBlock.calculateHash());
-
         return false;
       }
 
       // comprueba que todos los hashes este correlacionados correctamente
       if (currentBlock.previousHash !== previousBlock.hash) {
-        console.log('has previo: ' + currentBlock.previousHash);
-        console.log('has previo: ' + currentBlock.toString());
-        console.log('has previo: ' + previousBlock.toString());
-
         return false;
       }
     }
