@@ -8,7 +8,7 @@ const TransactionComposite = require('../../src/models/TransactionComposite');
 const TransactionCoinbase = require('../../src/models/TransactionCoinbase');
 const config = require('../../src/models/Config');
 
-describe('Node', () => {
+describe('Nodo', () => {
     let node;
     let sha256Strategy;
     let transaction;
@@ -183,7 +183,7 @@ describe('Node', () => {
             node3.addNode(node2);
         });
 
-        test('los tres nodos debe tener los mismos bloques cerrados en su blockchain', () => {
+        test('los tres nodos deben tener los mismos bloques cerrados en su blockchain', () => {
             // Generamos algunas transacciones para cada nodo
             const transactionsNode1 = Array(15).fill(null).map(generateTestTransaction);
             const transactionsNode2 = Array(12).fill(null).map(generateTestTransaction);
@@ -200,4 +200,5 @@ describe('Node', () => {
             expect(node2.blockchain).toEqual(node3.blockchain);
         });
     });
+
 });
