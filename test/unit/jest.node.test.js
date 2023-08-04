@@ -2,7 +2,8 @@ const Node = require('../../src/models/Node');
 const Block = require('../../src/models/Block');
 const MD5Hash = require('../../src/models/MD5Hash');
 const SHA256Hash = require('../../src/models/SHA256');
-const transactionSimple = require('../../src/models/TransactionSimple');
+const TransactionSimple = require('../../src/models/TransactionSimple');
+const TransactionComposite = require('../../src/models/TransactionComposite');
 
 const TransactionCoinbase = require('../../src/models/TransactionCoinbase');
 const config = require('../../src/models/Config');
@@ -34,7 +35,7 @@ describe('Node', () => {
 
     test('debe crear un nuevo bloque tras alcanzar 10 transacciones en el bloque abierto', () => {
         for (let i = 0; i < 10; i++) {
-            var transaction = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
+            var transaction = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
             node.addTransaction(transaction);
         }
 
@@ -45,7 +46,7 @@ describe('Node', () => {
 
     test('debe cerrar el último bloque y crear uno nuevo si ha alcanzado el número máximo de transacciones', () => {
         for (let i = 0; i < 10; i++) {
-            const transaction = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
+            const transaction = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
             node.addTransaction(transaction);
         }
         expect(node.blocks.length).toBe(2);
@@ -65,7 +66,7 @@ describe('Node', () => {
         const node = new Node();
 
         for (let i = 0; i < 30; i++) {
-            var transaction = new transactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
+            var transaction = new TransactionSimple('tx', 'inAddress', 'outAddress', new SHA256Hash(), 'node');
             node.addTransaction(transaction);
         }
         expect(node.blocks[0].hasValidTransactions()).toBe(true);
@@ -143,23 +144,6 @@ describe('Node', () => {
         expect(result).toBe(false);
     });
 
-
-    // Prueba unitaria para verificar el comportamiento cuando se recibe un bloque válido
-    // test('Agrega un bloque recibido válido a la cadena de bloques', () => {
-
-    //     const blocks = [
-    //         { hash: 'hash1', previousHash: null, hasValidTransactions: jest.fn().mockReturnValue(true), calculateHash: jest.fn().mockReturnValue('hash1') },
-    //     ];
-
-    //     const block = new Block('2021-10-01', [transaction, transaction], 'previousHash123');
-
-    //     // Llamar a la función receiveBroadcast() con el bloque válido
-    //     node.receiveBroadcast(block);
-
-    //     // Verificar si el bloque válido se agregó correctamente a la cadena de bloques
-    //     expect(node.blocks).toContain(blocks);
-    // });
-
     test('debe lanzar una excepción al recibir un bloque no válido', () => {
 
         const invalidBlock = new Block();
@@ -170,4 +154,50 @@ describe('Node', () => {
         }).toThrow(Error("Bloque no valido"));
     });
 
+    // Función para generar una transacción aleatoriamente de tipo TransactionComposite o TransactionSimple
+    function generateTestTransaction() {
+        const randomNum = Math.random(); // Generamos un número aleatorio entre 0 y 1
+
+        if (randomNum < 0.5) {
+            return new TransactionComposite(1, 'senderAddress', 'receiverAddress', { generateHash: jest.fn() }, 'node');
+        } else {
+            return new TransactionSimple('txIn', 'senderAddress', 'receiverAddress', { generateHash: jest.fn() }, 'node');
+        }
+    }
+
+    describe('Broadcasting', () => {
+        let node1, node2, node3;
+
+        beforeEach(() => {
+            node1 = new Node();
+            node2 = new Node();
+            node3 = new Node();
+
+            node1.addNode(node2);
+            node1.addNode(node3);
+
+            node2.addNode(node1);
+            node2.addNode(node3);
+
+            node3.addNode(node1);
+            node3.addNode(node2);
+        });
+
+        test('los tres nodos debe tener los mismos bloques cerrados en su blockchain', () => {
+            // Generamos algunas transacciones para cada nodo
+            const transactionsNode1 = Array(15).fill(null).map(generateTestTransaction);
+            const transactionsNode2 = Array(12).fill(null).map(generateTestTransaction);
+            const transactionsNode3 = Array(16).fill(null).map(generateTestTransaction);
+
+            // Agregamos las transacciones a los nodos
+            transactionsNode1.forEach(transaction => node1.addTransaction(transaction));
+            transactionsNode2.forEach(transaction => node2.addTransaction(transaction));
+            transactionsNode3.forEach(transaction => node3.addTransaction(transaction));
+
+            // Comprobamos que la blockchain de cada nodo sea idéntica
+            expect(node1.blockchain).toEqual(node2.blockchain);
+            expect(node1.blockchain).toEqual(node3.blockchain);
+            expect(node2.blockchain).toEqual(node3.blockchain);
+        });
+    });
 });

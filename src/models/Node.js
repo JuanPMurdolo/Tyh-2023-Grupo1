@@ -35,6 +35,7 @@ class Node {
       console.log('Bloque con 10 transacciones, se cierra');
 
       //se agrega el bloque a la blockchain
+      console.log('comenzamos broadcasting');
       this.broadcast(lastBlock);
 
       //se crea un nuevo bloque
@@ -58,6 +59,8 @@ class Node {
 
   broadcast(block) {
     this.blockchain.push(block);
+    console.log(this.blockchain);
+
     this.connectedNodes.forEach(node => {
       node.receiveBroadcast(block);
     })
@@ -68,8 +71,13 @@ class Node {
   }
 
   receiveBroadcast(block) {
+    console.log('nodo recibe bloque');
+
     if (this.verifyBlock(block) === true && this.getLatestBlock !== block) {
-      this.addBlock(block);
+      console.log('agregamos bloque');
+
+      this.addBlockBlockhain(block);
+
     } else {
       throw new Error("Bloque no valido");
 
@@ -77,7 +85,13 @@ class Node {
   }
 
   verifyBlock(block) {
+    console.log('verificamos bloque');
+
     return block.isValid() === true
+  }
+
+  addBlockBlockhain(block) {
+    this.blockchain.push(block);
   }
 
   addBlock(block) {
