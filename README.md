@@ -38,3 +38,6 @@ Objetivos
 - Establecer y alterar el mecanismo de hashing
 - Cerrar bloques con todo lo que esto conlleva, lo que debe desencadenarse automáticamente al agregar la tx que excede el límite (11)
 - Implementar tests de unidad para probar la solución con una cobertura de 80% del código.
+
+
+Para correr los test solo hara falta utilizar: jest --coverage
