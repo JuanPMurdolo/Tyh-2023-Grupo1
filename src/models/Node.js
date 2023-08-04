@@ -1,14 +1,10 @@
 const Block = require('./Block');
-const MD5Hash = require('./MD5Hash');
-const TransactionCoinbase = require('./TransactionCoinbase');
-const config = require('./Config');
 
 class Node {
   constructor() {
     this.blocks = [this.createGenesisBlock()]; // array de bloques abiertos
     this.blockchain = []; //array de bloques cerrados
-    this.connectedNodes = []; //array de nodos
-    this.pendingTransactions = [];
+    this.connectedNodes = []; //array de nodos conectados
   }
 
   createGenesisBlock() {
@@ -30,17 +26,17 @@ class Node {
 
     } else {
 
-      //si ya tiene las 10 transactions se cierra
+      //si ya tiene las 10 transactions se cierra y se guarda en la blockchain
       lastBlock.closeBlock();
-      console.log('Bloque con 10 transacciones, se cierra');
+      this.blockchain.push(lastBlock);
 
       //se agrega el bloque a la blockchain
-      console.log('comenzamos broadcasting');
       this.broadcast(lastBlock);
 
-      //se crea un nuevo bloque
+      //se crea un nuevo bloque y lo agregamos al array blocks
       this.createNewBlock();
 
+      //obtenemos el ultimo bloque y le agregamos su PreviusHash
       var lastBlock = this.getLatestBlock();
       lastBlock.addPreviousHash(this);
 
@@ -58,9 +54,6 @@ class Node {
   }
 
   broadcast(block) {
-    this.blockchain.push(block);
-    console.log(this.blockchain);
-
     this.connectedNodes.forEach(node => {
       node.receiveBroadcast(block);
     })
@@ -71,11 +64,7 @@ class Node {
   }
 
   receiveBroadcast(block) {
-    console.log('nodo recibe bloque');
-
     if (this.verifyBlock(block) === true && this.getLatestBlock !== block) {
-      console.log('agregamos bloque');
-
       this.addBlockBlockhain(block);
 
     } else {
@@ -85,8 +74,6 @@ class Node {
   }
 
   verifyBlock(block) {
-    console.log('verificamos bloque');
-
     return block.isValid() === true
   }
 
